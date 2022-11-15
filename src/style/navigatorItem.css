@@ -1,0 +1,16 @@
+
+.todo__navigator__items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.todo__navigator__items button {
+    margin-bottom: 40px;
+    background: none;
+    font-size: 22px;
+}
+
+
+
+    

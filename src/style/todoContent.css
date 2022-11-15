@@ -1,0 +1,80 @@
+.todo__content {
+    margin-left: 20px;
+    flex-grow: 1;
+}
+
+.todo__title {
+    font-size: 46px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.todo__list {
+    display: flex;
+    font-size: 30px;
+    align-items: center;
+    /* outline: 1px solid black; */
+}
+
+.todo__list div {
+    margin-bottom: 10px;
+}
+
+
+.todo__task__checkbox {
+    height: 20px;
+    width: 20px;
+}
+
+.todo__task__text {
+    padding-left: 8px;
+
+}
+
+.todo__list:hover .todo__task__del {
+    opacity: 1;
+
+}
+
+.todo__task__del {
+    /* background: url('../img/trash.png') left no-repeat; */
+    transition: all 0.3s;
+    opacity: 0;
+    font-size: 38px;
+    text-align: center;
+    border-radius: 50px;
+    background: #EA5959;
+    color: white;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 16px;
+    height: 30px;
+    width: 30px;
+    line-height: calc(30px * 0.99);
+}
+
+.todo__navigator__items button {
+    margin-bottom: 40px;
+    background: none;
+    font-size: 22px;
+}
+
+@media screen and (min-width: 1000px) and (max-width: 2400px) {
+    .todo__navigator__media {
+        display: none;
+    }
+        
+}
+
+@media screen and (min-width: 0px) and (max-width: 999px) {
+        
+    .todo__navigator__media {
+        display: block;
+    }
+    
+    .todo__navigator__media button {
+        font-size: 20px;
+        margin-left: 50px;
+        margin-bottom: 10px;
+    }
+}

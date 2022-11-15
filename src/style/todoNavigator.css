@@ -1,0 +1,13 @@
+.todo__navigator {
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    border-right: 2px solid #EA5959;
+}
+
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+    .todo__navigator {
+        display: none;
+    }
+        
+}

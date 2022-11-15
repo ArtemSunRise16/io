@@ -1,0 +1,15 @@
+.app {
+    display: flex;
+    padding: 32px;
+    background-color: #fff;
+    width: 70vw;
+    border-radius: 15px;
+    height: 80vh;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 32px;
+    font-weight: 300;
+}
