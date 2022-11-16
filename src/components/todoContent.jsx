@@ -4,9 +4,11 @@ import TodoAdd from "./todoAdd";
 import TodoList from "./todoList";
 
 
-function TodoContent({ todos, completeTask, removeTodo }) {
+function TodoContent({ todoFilter, completeTask, removeTodo, createTodo, todos }) {
 
 
+    
+    
 
     return (
         <div className="todo__content">
@@ -17,23 +19,10 @@ function TodoContent({ todos, completeTask, removeTodo }) {
                 <button>Undone</button>
                 <button>Sort By Date</button>
             </div>
-            <TodoAdd />
-            <TodoList todos={todos} completeTask={completeTask} removeTodo={removeTodo} />
+            <TodoAdd todos={todos} createTodo={createTodo} />
+            <TodoList todoFilter={todoFilter} completeTask={completeTask} removeTodo={removeTodo} />
         </div>
     )
 }
 
 export default TodoContent;
-
-
-
-// 
-{/* <div> */ }
-{/* <input className="todo__task__checkbox" type="checkbox"></input> */ }
-{/* </div> */ }
-{/* <div className="todo__task__text"> */ }
-{/* Купить морковку */ }
-{/* </div> */ }
-{/* <div className="todo__task__del"> */ }
-{/* - */ }
-{/* </div> */ }

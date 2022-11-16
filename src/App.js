@@ -1,7 +1,7 @@
 import './app.css';
 import TodoContent from './components/todoContent';
 import TodoNavigator from './components/todoNavigator';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function App() {
 
@@ -11,14 +11,21 @@ function App() {
     { id: 3, completed: false, title: 'Lerning React' }
   ])
 
-  function completeTask (id) {
+  const [todoFilter, setTodoFilter] = useState(todos)
+
+  useEffect(() => {
+    setTodoFilter(todos)
+  }, [todos])
+
+
+  function completeTask(id) {
     setTodos(
       todos.map(item => {
-        if(item.id === id){
+        if (item.id === id) {
           item.completed = !item.completed
-        } 
+        }
         console.log(item);
-          return item
+        return item
       })
     )
   }
@@ -27,12 +34,41 @@ function App() {
     setTodos(todos.filter(item => item.id !== id))
   }
 
+  function createTodo(newTodo) {
+    setTodos([newTodo, ...todos])
+  }
+
+  function filterState(state) {
+    if (state === 'all') {
+      setTodoFilter(todos)
+    } else {
+      const newTodoStatus = [...todos].filter(todo => todo.completed === state)
+      setTodoFilter(newTodoStatus)
+    }
+  }
+
+  function sortByDate(state) {
+    if (state === 'up') {
+      const sortTodosByDateUp = [...todos].sort((a, b) => a.dateForSort - b.dateForSort)
+      setTodoFilter(sortTodosByDateUp)
+    } else {
+      const sortTodosByDateDown = [...todos].sort((a, b) => b.dateForSort - a.dateForSort)
+      setTodoFilter(sortTodosByDateDown)
+    }
+  }
+
+
   return (
 
     <div className='Wrapper'>
       <div className="app">
-        <TodoNavigator />
-        <TodoContent todos={todos} completeTask={completeTask} removeTodo={removeTodo}/>
+        <TodoNavigator filterState={filterState} sortByDate={sortByDate} />
+        <TodoContent
+          todos={todos}
+          todoFilter={todoFilter}
+          completeTask={completeTask}
+          removeTodo={removeTodo}
+          createTodo={createTodo} />
       </div>
     </div>
   );
