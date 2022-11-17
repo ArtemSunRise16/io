@@ -5,9 +5,11 @@
     border-right: 2px solid #EA5959;
 }
 
-@media screen and (min-width: 0px) and (max-width: 1000px) {
+
+@media screen and (min-width: 0px) and (max-width:999px) { 
     .todo__navigator {
-        display: none;
-    }
-        
+        display: inline-block;
+        width: auto;
+        border: none;
+    } 
 }

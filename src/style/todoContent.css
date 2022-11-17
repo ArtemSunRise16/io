@@ -1,5 +1,5 @@
 .todo__content {
-    margin-left: 20px;
+    margin: 20px;
     flex-grow: 1;
 }
 
@@ -57,14 +57,28 @@
     font-size: 22px;
 }
 
-@media screen and (min-width: 1000px) and (max-width: 2400px) {
-    .todo__navigator__media {
-        display: none;
-    }
-        
+.todo__pagination {
+    display: flex;
+    justify-content: center;
+
 }
 
-@media screen and (min-width: 0px) and (max-width: 999px) {
+.todo__pagination button{
+    color: #EA5959;
+    font-size: 20px;
+    border: 1px solid #EA5959;
+    width: 28px;
+    border-radius: 10px;
+    margin: 2px;
+}
+
+/* @media screen and (min-width: 1000px) and (max-width: 2400px) {
+    .todo__navigator__media {
+        display: none;
+    } 
+} */
+
+/* @media screen and (min-width: 0px) and (max-width: 999px) {
         
     .todo__navigator__media {
         display: block;
@@ -75,4 +89,4 @@
         margin-left: 50px;
         margin-bottom: 10px;
     }
-}
+} */

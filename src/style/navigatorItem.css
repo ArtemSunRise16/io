@@ -11,6 +11,19 @@
     font-size: 22px;
 }
 
+@media screen and (min-width: 0px) and (max-width:999px) { 
+    .todo__navigator__items {
+        display: inline-block;
+    } 
+}
+
+@media screen and (min-width: 0px) and (max-width:999px) { 
+    .todo__navigator__items button {
+        display: flex;
+        display: inline-block;
+        margin-left: 35px;
+    } 
+}
 
 
     
