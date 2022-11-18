@@ -6,7 +6,7 @@ import { Context } from './components/context.js'
 
 function App() {
   const [filter, setFilter] = useState('all')
-  const [sort, setSort] = useState('default')
+  const [sort, setSort] = useState(true)
   const [todos, setTodos] = useState([
     { id: 1, completed: false, title: '0' },
     { id: 2, completed: false, title: '1' },
@@ -20,7 +20,8 @@ function App() {
   ])
 
   const sortedTodos = (() => {
-    const stateSort = sort === 'up'
+
+    const stateSort = sort
       ? todos.sort((a, b) => a.dateForSort - b.dateForSort)
       : todos.sort((a, b) => b.dateForSort - a.dateForSort)
     return stateSort;
@@ -35,7 +36,8 @@ function App() {
   })()
 
   const [currentPage, setCurrentPage] = useState(1)
-  const todosPrePage = 4
+  const todosPrePage = 6
+
 
   const paginationTodos = (() => {
     const lastTodoIndex = currentPage * todosPrePage
@@ -44,17 +46,10 @@ function App() {
     return currentTodoPage;
   })()
 
-
-
-
   function completeTask(id) {
     setTodos(
       todos.map(item => {
-        if (item.id === id) {
-          item.completed = !item.completed
-        }
-        console.log(item);
-        return item
+        return { ...item, completed: item.id === id ? !item.completed : item.completed }
       })
     )
   }
@@ -69,10 +64,12 @@ function App() {
 
   function filterState(state) {
     setFilter(state)
+    setCurrentPage(1)
   }
 
   function sortByDate(state) {
     setSort(state)
+    setCurrentPage(1)
   }
 
   function todoPagination(page) {
@@ -80,29 +77,29 @@ function App() {
   }
 
   function nextPage() {
-    setCurrentPage(past => past + 1)
+    setCurrentPage(next => next === Math.ceil(filteredTodos.length / todosPrePage) ? next : next + 1)
   }
 
   function pastPage() {
-    setCurrentPage(past => past - 1)
+    setCurrentPage(past => past === 1 ? 1 : past - 1)
   }
 
 
   return (
-    <Context.Provider value={{nextPage, pastPage}}>
+    <Context.Provider value={{ nextPage, pastPage }}>
       <div className='Wrapper'>
         <div className="app">
           <TodoNavigator
             filterState={filterState}
-            sortByDate={sortByDate} />
+            sortByDate={sortByDate}
+            isSorted={sort} />
           <TodoContent
-            todos={todos}
             todoFilter={paginationTodos}
             completeTask={completeTask}
             removeTodo={removeTodo}
             createTodo={createTodo}
             todosPrePage={todosPrePage}
-            totalTodo={todos.length}
+            totalTodo={filteredTodos.length}
             todoPagination={todoPagination} />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import '../style/todoAdd.css'
 
-function TodoAdd({ todos, createTodo }) {
+function TodoAdd({ createTodo }) {
 
     const [title, setTitle] = useState('')
 
@@ -16,23 +16,25 @@ function TodoAdd({ todos, createTodo }) {
             title,
             id: Date.now(),
             completed: false,
-            date: `${[d.getDate(),
-                    d.getMonth(),
-                    d.getFullYear()].join('/')}
-                ${[d.getHours(),
-                d.getMinutes(),
-                d.getSeconds()].join('-')}`,
+            date: `${d.toLocaleString('ru-RU')}`,
             dateForSort: d.getTime()
         }
         createTodo(newTodo)
         setTitle('')
     }
 
+
+function submitHandler(event) {
+    event.preventDefault()
+}
+
+    
+
     return (
-        <div className="todo__new">
+        <form className="todo__new" onSubmit={submitHandler}>
             <input type="text" placeholder="Add a new tasks" value={title} onChange={onChangeHandler}></input>
             <button className="todo__add" onClick={addNewTodo} >+</button>
-        </div>
+        </form>
     )
 }
 

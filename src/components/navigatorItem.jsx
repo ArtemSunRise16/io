@@ -1,35 +1,31 @@
 import React from "react";
 import '../style/navigatorItem.css'
 
-function NavigatorItem({filterState, sortByDate}) {
+function NavigatorItem({ filterState, sortByDate, isSorted }) {
 
-function onClickHandlerDone() {
-    filterState(true)
-}
 
-function onClickHandlerUnDone() {
-    filterState(false)
-}
+    function onClickHandlerDone() {
+        filterState(true)
+    }
 
-function onClickHandlerAll() {
-    filterState('all')
-}
+    function onClickHandlerUnDone() {
+        filterState(false)
+    }
 
-function OnClickHandlerDateUp() {
-    sortByDate('up')
-}
+    function onClickHandlerAll() {
+        filterState('all')
+    }
 
-function OnClickHandlerDateDown() {
-    sortByDate('down')
-}
+    function OnClickHandlerDate() {
+        sortByDate(!isSorted)
+    }
 
     return (
-        <div className="todo__navigator__items">
+        <div className = 'todo__navigator__items' >
             <button onClick={onClickHandlerAll}>All</button>
             <button onClick={onClickHandlerDone}>Done</button>
             <button onClick={onClickHandlerUnDone}>Undone</button>
-            <button onClick={OnClickHandlerDateUp}>Sort  Up</button>
-            <button onClick={OnClickHandlerDateDown}>Sort  Down</button>
+            <button onClick={OnClickHandlerDate}>Sort</button>
         </div>
     )
 }

@@ -14,7 +14,7 @@ function TodoItem({ todo, completeTask, removeTodo }) {
                 <input checked={todo.completed ? true : false } className="todo__task__checkbox" type="checkbox" onChange={() => completeTask(todo.id)}></input>
             </div>
             <div className="todo__task__text">
-                {todo.title} {todo.date}
+                {todo.title} <span className="todo__task__date">{todo.date}</span>
             </div>
             <button onClick={onClickHandler} className="todo__task__del"><BsTrash></BsTrash></button>
         </div>

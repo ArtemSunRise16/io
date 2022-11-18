@@ -28,7 +28,12 @@
 
 .todo__task__text {
     padding-left: 8px;
+    font-size: 20px;
+}
 
+.todo__task__date {
+    font-size: 15px;
+    color: black;
 }
 
 .todo__list:hover .todo__task__del {
