@@ -65,10 +65,9 @@
 .todo__pagination {
     display: flex;
     justify-content: center;
-
 }
 
-.todo__pagination button{
+.todo__pagination__button{
     color: #EA5959;
     font-size: 20px;
     border: 1px solid #EA5959;
@@ -77,21 +76,14 @@
     margin: 2px;
 }
 
-/* @media screen and (min-width: 1000px) and (max-width: 2400px) {
-    .todo__navigator__media {
-        display: none;
-    } 
-} */
+.pageActive {
+    background: #EA5959;
+    color: antiquewhite;
+}
 
-/* @media screen and (min-width: 0px) and (max-width: 999px) {
-        
-    .todo__navigator__media {
-        display: block;
-    }
-    
-    .todo__navigator__media button {
-        font-size: 20px;
-        margin-left: 50px;
-        margin-bottom: 10px;
-    }
-} */
+.edit__todo {
+    border: 1px solid black;
+    margin-left: 10px;
+    margin: 10px;
+}
+

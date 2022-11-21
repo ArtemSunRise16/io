@@ -3,7 +3,10 @@ import '../style/todoContent.css'
 import { Context } from "./context";
 
 function Pagination({ todosPrePage, totalTodo, todoPagination }) {
-    const { nextPage, pastPage } = useContext(Context)
+
+
+    const { nextPage, pastPage, pageActive, currentPage } = useContext(Context)
+
     const pageNumber = []
 
     for (let i = 1; i <= Math.ceil(totalTodo / todosPrePage); i++) {
@@ -13,11 +16,18 @@ function Pagination({ todosPrePage, totalTodo, todoPagination }) {
 
     return (
         <div className="todo__pagination">
-            <button onClick={() => pastPage()}>{'<<'}</button>
-            {pageNumber.map(page => (
-                <button onClick={() => todoPagination(page)} key={page}>{page}</button>
-            ))}
-            <button onClick={() => nextPage()}>{'>>'}</button>
+            <button className="todo__pagination__button" onClick={() => pastPage()}>{'<<'}</button>
+            {currentPage >= 3 && <button className="todo__pagination__button" onClick={() => pastPage()}>{'...'}</button>}
+            {pageNumber.map(page => {
+                if (page === currentPage || page === currentPage + 1 || page === currentPage - 1) {
+
+                    return <button className={`todo__pagination__button ${pageActive === page && 'pageActive'}`} onClick={() => todoPagination(page)} key={page}>{page}</button>
+
+                } 
+                return null
+            })}
+            {currentPage < Math.ceil(totalTodo / todosPrePage) - 1 && <button className="todo__pagination__button" onClick={() => nextPage()}>{'...'}</button>}
+            <button className="todo__pagination__button" onClick={() => nextPage()}>{'>>'}</button>
         </div>
     )
 }
