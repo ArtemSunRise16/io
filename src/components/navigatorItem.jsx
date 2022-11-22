@@ -21,10 +21,10 @@ function NavigatorItem({filterState, sortByDate, isSorted, active, setActive}) {
 
     return (
         <div className='todo__navigator__items' >
-            <button className={active === '' && 'active'} onClick={onClickHandlerAll}>All</button>
-            <button className={active === 'done' && 'active'} onClick={onClickHandlerDone}>Done</button>
-            <button className={active === 'undone' && 'active'} onClick={onClickHandlerUnDone}>Undone</button>
-            <button className={active === 'sort' && 'active'} onClick={OnClickHandlerDate}>Sort</button>
+            <button className={active === '' ? 'active' : undefined} onClick={onClickHandlerAll}>All</button>
+            <button className={active === 'done' ? 'active' : undefined} onClick={onClickHandlerDone}>Done</button>
+            <button className={active === 'undone' ? 'active' : undefined} onClick={onClickHandlerUnDone}>Undone</button>
+            <button className={active === 'sort' ? 'active' : undefined} onClick={OnClickHandlerDate}>Sort</button>
         </div>
     )
 }

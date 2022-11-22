@@ -5,7 +5,7 @@ import TodoAdd from "./todoAdd";
 import TodoList from "./todoList";
 // function TodoContent({ todoFilter, completeTask, removeTodo, createTodo, todosPrePage, totalTodo, todoPagination, todos, setTodos })
 
-function TodoContent({ completeTask, removeTodo, todos, createTodo }) {
+function TodoContent({ saveTodo, completeTask, removeTodo, todos, createTodo }) {
 
 
 
@@ -13,7 +13,7 @@ function TodoContent({ completeTask, removeTodo, todos, createTodo }) {
         <div className="todo__content">
             <h1 className="todo__title">Tasks</h1>
             <TodoAdd createTodo={createTodo}/>
-            <TodoList completeTask={completeTask} removeTodo={removeTodo} todos={todos} />
+            <TodoList saveTodo={saveTodo} completeTask={completeTask} removeTodo={removeTodo} todos={todos} />
             {/* <Pagination todosPrePage={todosPrePage} totalTodo={totalTodo} todoPagination={todoPagination}/> */}
         </div>
     )

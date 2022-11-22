@@ -71,6 +71,16 @@ function App() {
     getTodo()
   }
 
+  async function saveTodo(id, value, todo) {
+    await axios.patch(`https://todo-api-learning.herokuapp.com/v1/task/1/${id}`, {
+        name: value,
+        done: todo.done,
+        createdAt: todo.createdAt,
+        updatedAt: todo.updatedAt,
+    })
+    getTodo()
+}
+
 
 
   // function createTodo(newTodo) {
@@ -176,7 +186,8 @@ function App() {
           todos={todos}
           completeTask={completeTask}
           removeTodo={removeTodo}
-          createTodo={createTodo} />
+          createTodo={createTodo}
+          saveTodo={saveTodo} />
         {/* todosPrePage={todosPrePage}
             totalTodo={filteredTodos.length}
             todoPagination={todoPagination}  */}
