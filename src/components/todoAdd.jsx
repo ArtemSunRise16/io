@@ -3,24 +3,24 @@ import '../style/todoAdd.css'
 
 function TodoAdd({ createTodo }) {
 
-    const [title, setTitle] = useState('')
+    const [name, setName] = useState('')
 
     const onChangeHandler = (event) => {
-        setTitle(event.target.value);
+        setName(event.target.value);
     }
 
     function addNewTodo() {
+        if(name.trim() === '') return
         const d = new Date()
 
         const newTodo = {
-            title,
-            id: Date.now(),
-            completed: false,
-            date: `${d.toLocaleString('ru-RU')}`,
-            dateForSort: d.getTime()
+            name: name,
+            done: false,
+            createdAt: d.toLocaleString(),
+            updatedAt: d.getTime(),
         }
         createTodo(newTodo)
-        setTitle('')
+        setName('')
     }
 
 
@@ -32,7 +32,7 @@ function submitHandler(event) {
 
     return (
         <form className="todo__new" onSubmit={submitHandler}>
-            <input type="text" placeholder="Add a new tasks" value={title} onChange={onChangeHandler}></input>
+            <input type="text" placeholder="Add a new tasks" value={name} onChange={onChangeHandler}></input>
             <button className="todo__add" onClick={addNewTodo} >+</button>
         </form>
     )

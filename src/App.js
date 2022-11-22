@@ -1,122 +1,188 @@
 import './app.css';
 import TodoContent from './components/todoContent';
 import TodoNavigator from './components/todoNavigator';
-import React, { useState } from 'react';
-import { Context } from './components/context.js'
+import React, { useEffect, useState } from 'react';
+// import { Context } from './components/context.js'
+import axios from 'axios';
 
 function App() {
-  const [pageActive, setPageActive] = useState(1)
+  // const [pageActive, setPageActive] = useState(1)
   const [active, setActive] = useState('all')
-  const [filter, setFilter] = useState('all')
+  const [filter, setFilter] = useState('')
   const [sort, setSort] = useState(true)
-  const [todos, setTodos] = useState([
-    { id: 1, completed: false, title: 'Test todo title' },
-    { id: 2, completed: false, title: 'Lerned React' },
-    { id: 3, completed: false, title: 'Create todo list' },
-    { id: 4, completed: false, title: 'Create frontEnd loyout' },
-    { id: 5, completed: false, title: '4' },
-    { id: 6, completed: false, title: '5' },
-    { id: 7, completed: false, title: '6' },
-    { id: 8, completed: false, title: '7' },
-    { id: 9, completed: false, title: '8' },
-  ])
+  const [paramsSort, setParamsSort] = useState('')
+  const [todos, setTodos] = useState([])
+  const [loading, setLoading] = useState(false)
 
-  const sortedTodos = (() => {
-
-    const stateSort = sort
-      ? todos.sort((a, b) => a.dateForSort - b.dateForSort)
-      : todos.sort((a, b) => b.dateForSort - a.dateForSort)
-    return stateSort;
-  })()
-
-
-  const filteredTodos = (() => {
-    const stateFilter = filter === 'all'
-      ? sortedTodos
-      : sortedTodos.filter((item) => item.completed === filter);
-    return stateFilter;
-  })()
-
-  const [currentPage, setCurrentPage] = useState(1)
-  const todosPrePage = 6
-
-
-  const paginationTodos = (() => {
-    const lastTodoIndex = currentPage * todosPrePage
-    const firstTodoIndex = lastTodoIndex - todosPrePage
-    const currentTodoPage = filteredTodos.slice(firstTodoIndex, lastTodoIndex)
-    return currentTodoPage;
-  })()
-
-  function completeTask(id) {
-    setTodos(
-      todos.map(item => {
-        return { ...item, completed: item.id === id ? !item.completed : item.completed }
-      })
-    )
+  const getTodo = async () => {
+    setLoading(true)
+    const res = await axios.get('https://todo-api-learning.herokuapp.com/v1/tasks/1', {
+      params: {
+        filterBy: filter,
+        order: paramsSort,
+      }
+    })
+    setTodos(res.data.tasks)
+    setLoading(false)
   }
 
-  function removeTodo(id) {
-    setTodos(todos.filter(item => item.id !== id))
-  }
+  useEffect(() => {
+    getTodo()
+  }, [filter, sort])
 
-  function createTodo(newTodo) {
-    setTodos([newTodo, ...todos])
-  }
 
   function filterState(state) {
     setFilter(state)
-    setCurrentPage(1)
     setActive(state)
-    setPageActive(1)
   }
 
   function sortByDate(state) {
-    setActive('sort')
     setSort(state)
-    setCurrentPage(1)
-    setPageActive(1)
+    if (sort) {
+      setParamsSort('asc')
+    } else {
+      setParamsSort('desc')
+    }
+    setActive('sort')
   }
 
-  function todoPagination(page) {
-    setCurrentPage(page)
-    setPageActive(page)
+  async function createTodo(newTodo) {
+    await axios.post('https://todo-api-learning.herokuapp.com/v1/task/1', {
+      name: newTodo.name,
+      done: newTodo.done,
+      createdAt: newTodo.createdAt,
+      updatedAt: newTodo.updatedAt,
+    })
+    getTodo()
   }
 
-  function nextPage() {
-    setCurrentPage(next => next === Math.ceil(filteredTodos.length / todosPrePage) ? next : next + 1)
-    setPageActive(nextPage => nextPage === Math.ceil(filteredTodos.length / todosPrePage) ? nextPage : nextPage + 1)
+  async function removeTodo(id) {
+    await axios.delete(`https://todo-api-learning.herokuapp.com/v1/task/1/${id}`)
+    getTodo()
   }
 
-  function pastPage() {
-    setCurrentPage(past => past === 1 ? 1 : past - 1)
-    setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
+  async function completeTask(todo) {
+    await axios.patch(`https://todo-api-learning.herokuapp.com/v1/task/1/${todo.uuid}`, {
+      name: todo.name,
+      done: !todo.done,
+      createdAt: todo.createdAt,
+      updatedAt: todo.updatedAt,
+    })
+    getTodo()
   }
+
+
+
+  // function createTodo(newTodo) {
+  //   setTodos([newTodo, ...todos])
+  // }
+
+  // const sortedTodos = (() => {
+
+  //   const stateSort = sort
+  //     ? todos.sort((a, b) => a.dateForSort - b.dateForSort)
+  //     : todos.sort((a, b) => b.dateForSort - a.dateForSort)
+  //   return stateSort;
+  // })()
+
+
+  // const filteredTodos = (() => {
+  //   const stateFilter = filter === 'all'
+  //     ? sortedTodos
+  //     : sortedTodos.filter((item) => item.completed === filter);
+  //   return stateFilter;
+  // })()
+
+  // const [currentPage, setCurrentPage] = useState(1)
+  // const todosPrePage = 6
+
+
+  // const paginationTodos = (() => {
+  //   const lastTodoIndex = currentPage * todosPrePage
+  //   const firstTodoIndex = lastTodoIndex - todosPrePage
+  //   const currentTodoPage = filteredTodos.slice(firstTodoIndex, lastTodoIndex)
+  //   return currentTodoPage;
+  // })()
+
+  // function completeTask(id) {
+  //   setTodos(
+  //     todos.map(item => {
+  //       return { ...item, done: item.uuid === id ? !item.done : item.done }
+  //     })
+  //   )
+  // }
+
+  // function removeTodo(id) {
+  //   setTodos(todos.filter(item => item.uuid !== id))
+  // }
+
+
+
+  //  async function filterState(state) {
+  //     setLoading(true)
+  //     const res = await axios.get(`https://todo-api-learning.herokuapp.com/v1/tasks/1?filterBy=${state}&order=asc&pp=6&page=1`)
+  //     setTodos(res.data.tasks)
+
+  //   getTodo()
+  //   //  setFilter(state)
+  //   //  setCurrentPage(1)
+  //   //  setActive(state)
+  //   //  setPageActive(1)
+  //  }
+
+  // function sortByDate(state) {
+  //   setActive('sort')
+  //   setSort(state)
+  //   if(state){
+  //     setSort('asc')
+  //   } else {
+  //     setSort('desc')
+  //   }
+  //   setCurrentPage(1)
+  //   setPageActive(1)
+  // }
+
+  // function todoPagination(page) {
+  //   setCurrentPage(page)
+  //   setPageActive(page)
+  // }
+
+  // function nextPage() {
+  //   setCurrentPage(next => next === Math.ceil(filteredTodos.length / todosPrePage) ? next : next + 1)
+  //   setPageActive(nextPage => nextPage === Math.ceil(filteredTodos.length / todosPrePage) ? nextPage : nextPage + 1)
+  // }
+
+  // function pastPage() {
+  //   setCurrentPage(past => past === 1 ? 1 : past - 1)
+  //   setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
+  // }
 
 
   return (
-    <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage }}>
-      <div className='Wrapper'>
-        <div className="app">
-          <TodoNavigator
-            active={active}
-            setActive={setActive}
-            filterState={filterState}
-            sortByDate={sortByDate}
-            isSorted={sort} />
-          <TodoContent
-            setTodos={setTodos}
-            todos={todos}
-            todoFilter={paginationTodos}
-            completeTask={completeTask}
-            removeTodo={removeTodo}
-            createTodo={createTodo}
-            todosPrePage={todosPrePage}
+    // <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage }}>
+    <div className='Wrapper'>
+      <div className="app">
+        <TodoNavigator
+          filterState={filterState}
+          sortByDate={sortByDate}
+          isSorted={sort}
+          active={active}
+          setActive={setActive}
+        />
+        {/* // active={active}
+            // setActive={setActive}  */}
+        <TodoContent
+          setTodos={setTodos}
+          todos={todos}
+          completeTask={completeTask}
+          removeTodo={removeTodo}
+          createTodo={createTodo} />
+        {/* todosPrePage={todosPrePage}
             totalTodo={filteredTodos.length}
-            todoPagination={todoPagination} />
-        </div>
+            todoPagination={todoPagination}  */}
       </div>
-    </Context.Provider>
+    </div>
+    // </Context.Provider>
   );
 }
 

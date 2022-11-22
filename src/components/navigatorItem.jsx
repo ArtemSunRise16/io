@@ -1,18 +1,18 @@
 import React from "react";
 import '../style/navigatorItem.css'
-
-function NavigatorItem({ filterState, sortByDate, isSorted, active }) {
+// function NavigatorItem({ filterState, sortByDate, isSorted, active })
+function NavigatorItem({filterState, sortByDate, isSorted, active, setActive}) {
 
     function onClickHandlerDone() {
-        filterState(true)
+        filterState('done')
     }
 
     function onClickHandlerUnDone() {
-        filterState(false)
+        filterState('undone')
     }
 
     function onClickHandlerAll() {
-        filterState('all')
+        filterState('')
     }
 
     function OnClickHandlerDate() {
@@ -20,13 +20,15 @@ function NavigatorItem({ filterState, sortByDate, isSorted, active }) {
     }
 
     return (
-        <div className = 'todo__navigator__items' >
-            <button className={active === 'all' && 'active'} onClick={onClickHandlerAll}>All</button>
-            <button className={active === true && 'active'} onClick={onClickHandlerDone}>Done</button>
-            <button className={active === false && 'active'} onClick={onClickHandlerUnDone}>Undone</button>
+        <div className='todo__navigator__items' >
+            <button className={active === '' && 'active'} onClick={onClickHandlerAll}>All</button>
+            <button className={active === 'done' && 'active'} onClick={onClickHandlerDone}>Done</button>
+            <button className={active === 'undone' && 'active'} onClick={onClickHandlerUnDone}>Undone</button>
             <button className={active === 'sort' && 'active'} onClick={OnClickHandlerDate}>Sort</button>
         </div>
     )
 }
 
 export default NavigatorItem
+
+
