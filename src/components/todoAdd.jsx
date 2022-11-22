@@ -10,6 +10,7 @@ function TodoAdd({ createTodo }) {
     }
 
     function addNewTodo() {
+        if(title.trim() === '') return
         const d = new Date()
 
         const newTodo = {
