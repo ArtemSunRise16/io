@@ -1,11 +1,12 @@
 import React from "react";
 import '../style/todoContent.css'
-// import Pagination from "./pagination";
+import Pagination from "./pagination";
 import TodoAdd from "./todoAdd";
 import TodoList from "./todoList";
+
 // function TodoContent({ todoFilter, completeTask, removeTodo, createTodo, todosPrePage, totalTodo, todoPagination, todos, setTodos })
 
-function TodoContent({ saveTodo, completeTask, removeTodo, todos, createTodo }) {
+function TodoContent({ todoPagination, totalTodo, todosPrePage, saveTodo, completeTask, removeTodo, todos, createTodo }) {
 
 
 
@@ -14,7 +15,7 @@ function TodoContent({ saveTodo, completeTask, removeTodo, todos, createTodo }) 
             <h1 className="todo__title">Tasks</h1>
             <TodoAdd createTodo={createTodo}/>
             <TodoList saveTodo={saveTodo} completeTask={completeTask} removeTodo={removeTodo} todos={todos} />
-            {/* <Pagination todosPrePage={todosPrePage} totalTodo={totalTodo} todoPagination={todoPagination}/> */}
+            <Pagination todosPrePage={todosPrePage} totalTodo={totalTodo} todoPagination={todoPagination}/>
         </div>
     )
 }

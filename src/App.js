@@ -2,17 +2,30 @@ import './app.css';
 import TodoContent from './components/todoContent';
 import TodoNavigator from './components/todoNavigator';
 import React, { useEffect, useState } from 'react';
-// import { Context } from './components/context.js'
+import { Context } from './components/context.js'
 import axios from 'axios';
 
 function App() {
-  // const [pageActive, setPageActive] = useState(1)
+  
+  const [pageActive, setPageActive] = useState(1)
+
   const [active, setActive] = useState('all')
+
   const [filter, setFilter] = useState('')
+
   const [sort, setSort] = useState(true)
+
   const [paramsSort, setParamsSort] = useState('')
+
   const [todos, setTodos] = useState([])
+
   const [loading, setLoading] = useState(false)
+
+  const [countTodos, setCountTodos] = useState(0)
+
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const todosPrePage = 6
 
   const getTodo = async () => {
     setLoading(true)
@@ -20,23 +33,29 @@ function App() {
       params: {
         filterBy: filter,
         order: paramsSort,
+        pp: todosPrePage,
+        page: currentPage,
       }
     })
+    setCountTodos(res.data.count)
     setTodos(res.data.tasks)
     setLoading(false)
   }
 
   useEffect(() => {
     getTodo()
-  }, [filter, sort])
+  }, [filter, sort, currentPage])
 
 
   function filterState(state) {
+    setCurrentPage(1)
     setFilter(state)
     setActive(state)
+    setPageActive(1)
   }
 
   function sortByDate(state) {
+    setCurrentPage(1)
     setSort(state)
     if (sort) {
       setParamsSort('asc')
@@ -44,6 +63,7 @@ function App() {
       setParamsSort('desc')
     }
     setActive('sort')
+    setPageActive(1)
   }
 
   async function createTodo(newTodo) {
@@ -73,13 +93,61 @@ function App() {
 
   async function saveTodo(id, value, todo) {
     await axios.patch(`https://todo-api-learning.herokuapp.com/v1/task/1/${id}`, {
-        name: value,
-        done: todo.done,
-        createdAt: todo.createdAt,
-        updatedAt: todo.updatedAt,
+      name: value,
+      done: todo.done,
+      createdAt: todo.createdAt,
+      updatedAt: todo.updatedAt,
     })
     getTodo()
+  }
+
+    // const lastTodoIndex = currentPage * todosPrePage
+    // const firstTodoIndex = lastTodoIndex - todosPrePage
+    // const currentTodoPage = todos.slice(firstTodoIndex, lastTodoIndex)
+
+  function todoPagination(page) {
+    setCurrentPage(page)
+    setPageActive(page)
+  }
+
+  function nextPage() {
+    setCurrentPage(next => next === Math.ceil(countTodos / todosPrePage) ? next : next + 1)
+    setPageActive(nextPage => nextPage === Math.ceil(countTodos / todosPrePage) ? nextPage : nextPage + 1)
+  }
+
+  function pastPage() {
+    setCurrentPage(past => past === 1 ? 1 : past - 1)
+    setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
+  }
+
+  return (
+    <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage }}>
+    <div className='Wrapper'>
+      <div className="app">
+        <TodoNavigator
+          filterState={filterState}
+          sortByDate={sortByDate}
+          isSorted={sort}
+          active={active}
+          setActive={setActive}
+        />
+        <TodoContent
+          setTodos={setTodos}
+          todos={todos}
+          completeTask={completeTask}
+          removeTodo={removeTodo}
+          createTodo={createTodo}
+          saveTodo={saveTodo}
+          todosPrePage={todosPrePage}
+          totalTodo={countTodos}
+          todoPagination={todoPagination} />
+      </div>
+    </div>
+    </Context.Provider>
+  );
 }
+
+export default App;
 
 
 
@@ -166,35 +234,3 @@ function App() {
   //   setCurrentPage(past => past === 1 ? 1 : past - 1)
   //   setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
   // }
-
-
-  return (
-    // <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage }}>
-    <div className='Wrapper'>
-      <div className="app">
-        <TodoNavigator
-          filterState={filterState}
-          sortByDate={sortByDate}
-          isSorted={sort}
-          active={active}
-          setActive={setActive}
-        />
-        {/* // active={active}
-            // setActive={setActive}  */}
-        <TodoContent
-          setTodos={setTodos}
-          todos={todos}
-          completeTask={completeTask}
-          removeTodo={removeTodo}
-          createTodo={createTodo}
-          saveTodo={saveTodo} />
-        {/* todosPrePage={todosPrePage}
-            totalTodo={filteredTodos.length}
-            todoPagination={todoPagination}  */}
-      </div>
-    </div>
-    // </Context.Provider>
-  );
-}
-
-export default App;
