@@ -14,7 +14,7 @@ function TodoContent({ todoPagination, totalTodo, todosPrePage, saveTodo, comple
         <div className="todo__content">
             <h1 className="todo__title">Tasks</h1>
             <TodoAdd todos={todos} createTodo={createTodo}/>
-            <TodoList saveTodo={saveTodo} completeTask={completeTask} removeTodo={removeTodo} todos={todos} />
+            {todos.length ? <TodoList saveTodo={saveTodo} completeTask={completeTask} removeTodo={removeTodo} todos={todos} /> : <h3>Нет заметок</h3>}
             <Pagination todosPrePage={todosPrePage} totalTodo={totalTodo} todoPagination={todoPagination}/>
         </div>
     )

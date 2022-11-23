@@ -27,7 +27,7 @@ function NavigatorItem({ activeSorted, filterState, sortByDate, isSorted, active
             <button className={active === '' ? 'active' : undefined} onClick={onClickHandlerAll}>All</button>
             <button className={active === 'done' ? 'active' : undefined} onClick={onClickHandlerDone}>Done</button>
             <button className={active === 'undone' ? 'active' : undefined} onClick={onClickHandlerUnDone}>Undone</button>
-            <span><button className={active === 'sort' ? 'active' : undefined} onClick={OnClickHandlerDate}>Sort</button> <span className={activeSorted === true ? 'active' : undefined}><AiOutlineArrowDown></AiOutlineArrowDown></span> <span className={activeSorted === false ? 'active' : undefined}><AiOutlineArrowUp></AiOutlineArrowUp></span> </span>
+            <span><button onClick={OnClickHandlerDate}>Sort</button> <span className={activeSorted === true ? 'active' : undefined}><AiOutlineArrowDown></AiOutlineArrowDown></span> <span className={activeSorted === false ? 'active' : undefined}><AiOutlineArrowUp></AiOutlineArrowUp></span> </span>
         </div>
     )
 }

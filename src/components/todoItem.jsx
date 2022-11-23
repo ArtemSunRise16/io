@@ -49,7 +49,7 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
                             <input checked={todo.done ? true : false} className="todo__task__checkbox" type="checkbox" onChange={() => completeTask(todo)}></input>
                         </div>
                         <div onClick={() => editTodo(todo.uuid, todo.name)} className="todo__task__text">
-                            {todo.name} <span className="todo__task__date">{todo.updatedAt}</span>
+                            {todo.name} <span className="todo__task__date">{todo.createdAt}</span>
                         </div>
                         <button onClick={onClickHandler} className="todo__task__del"><BsTrash></BsTrash></button>
                     </div>
