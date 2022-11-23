@@ -10,8 +10,8 @@ function TodoAdd({ createTodo, todos }) {
     }
 
     function addNewTodo() {
-        if (title.trim() === '') return null
-        if (todos.map(item => item.title).includes(title)) return setTitle('')
+        if (name.trim() === '') return null
+        if (todos.map(item => item.name).includes(name)) return setName('')
 
         const d = new Date()
 

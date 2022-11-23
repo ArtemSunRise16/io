@@ -122,10 +122,11 @@ function App() {
     setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
   }
 
-  if(paginationTodos.length <= 0 && currentPage > 1) {
+  if(todos.length <= 0 && currentPage > 1) {
     setCurrentPage(prev => prev - 1)
     setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
   }
+
   return (
     <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage }}>
     <div className='Wrapper'>
