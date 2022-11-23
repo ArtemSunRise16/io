@@ -1,7 +1,10 @@
 import React from "react";
 import '../style/navigatorItem.css'
-// function NavigatorItem({ filterState, sortByDate, isSorted, active })
-function NavigatorItem({filterState, sortByDate, isSorted, active, setActive}) {
+import { AiOutlineArrowDown } from "react-icons/ai";
+import { AiOutlineArrowUp } from "react-icons/ai";
+
+
+function NavigatorItem({ activeSorted, filterState, sortByDate, isSorted, active }) {
 
     function onClickHandlerDone() {
         filterState('done')
@@ -16,7 +19,7 @@ function NavigatorItem({filterState, sortByDate, isSorted, active, setActive}) {
     }
 
     function OnClickHandlerDate() {
-        sortByDate(!isSorted)
+        sortByDate(!isSorted, !activeSorted)
     }
 
     return (
@@ -25,6 +28,7 @@ function NavigatorItem({filterState, sortByDate, isSorted, active, setActive}) {
             <button className={active === 'done' ? 'active' : undefined} onClick={onClickHandlerDone}>Done</button>
             <button className={active === 'undone' ? 'active' : undefined} onClick={onClickHandlerUnDone}>Undone</button>
             <button className={active === 'sort' ? 'active' : undefined} onClick={OnClickHandlerDate}>Sort</button>
+            <span><button className={active === 'sort' && 'active'} onClick={OnClickHandlerDate}>Sort</button> <span className={activeSorted === true && 'active'}><AiOutlineArrowDown></AiOutlineArrowDown></span> <span className={activeSorted === false && 'active'}><AiOutlineArrowUp></AiOutlineArrowUp></span> </span>
         </div>
     )
 }

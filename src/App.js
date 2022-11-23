@@ -10,9 +10,8 @@ function App() {
   const [pageActive, setPageActive] = useState(1)
 
   const [active, setActive] = useState('all')
-
-  const [filter, setFilter] = useState('')
-
+  const [activeSorted, setActiveSorted] = useState(false)
+  const [filter, setFilter] = useState('all')
   const [sort, setSort] = useState(true)
 
   const [paramsSort, setParamsSort] = useState('')
@@ -54,7 +53,9 @@ function App() {
     setPageActive(1)
   }
 
-  function sortByDate(state) {
+  function sortByDate(state, activeSorted) {
+    setActive('sort')
+    setSort(state)
     setCurrentPage(1)
     setSort(state)
     if (sort) {
@@ -64,6 +65,7 @@ function App() {
     }
     setActive('sort')
     setPageActive(1)
+    setActiveSorted(activeSorted)
   }
 
   async function createTodo(newTodo) {
@@ -120,11 +122,16 @@ function App() {
     setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
   }
 
+  if(paginationTodos.length <= 0 && currentPage > 1) {
+    setCurrentPage(prev => prev - 1)
+    setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
+  }
   return (
     <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage }}>
     <div className='Wrapper'>
       <div className="app">
         <TodoNavigator
+          activeSorted={activeSorted}
           filterState={filterState}
           sortByDate={sortByDate}
           isSorted={sort}
