@@ -4,14 +4,20 @@ import TodoNavigator from './components/todoNavigator';
 import React, { useEffect, useState } from 'react';
 import { Context } from './components/context.js'
 import { getTasks, postCreateTodo, deletTask, patchCompleteTask, patchSaveTask } from './services/API';
+import Modal from './components/popup';
 
 function App() {
+
+  const [error, setError] = useState(false)
 
   const [pageActive, setPageActive] = useState(1)
 
   const [active, setActive] = useState('')
+
   const [activeSorted, setActiveSorted] = useState(false)
+
   const [filter, setFilter] = useState('')
+
   const [sort, setSort] = useState(true)
 
   const [paramsSort, setParamsSort] = useState('')
@@ -35,7 +41,7 @@ function App() {
       setTodos(res.tasks)
       setLoading(false)
       console.log(res);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
   }
@@ -74,8 +80,12 @@ function App() {
   }
 
   async function removeTodo(id) {
-    await deletTask(id)
-    getTodo()
+    try {
+      await deletTask(id)
+      getTodo()
+    } catch (e) {
+      setError(true)
+    }
   }
 
   async function completeTask(todo) {
@@ -121,6 +131,8 @@ function App() {
             setActive={setActive}
           />
           <TodoContent
+            error={error}
+            setError={setError}
             setTodos={setTodos}
             todos={todos}
             completeTask={completeTask}
@@ -142,6 +154,7 @@ export default App;
     // const lastTodoIndex = currentPage * todosPrePage
     // const firstTodoIndex = lastTodoIndex - todosPrePage
     // const currentTodoPage = todos.slice(firstTodoIndex, lastTodoIndex)
+
   // function createTodo(newTodo) {
   //   setTodos([newTodo, ...todos])
   // }
