@@ -11,7 +11,7 @@ function TodoContent({ todoFilter, completeTask, removeTodo, createTodo, todosPr
     return (
         <div className="todo__content">
             <h1 className="todo__title">Tasks</h1>
-            <TodoAdd createTodo={createTodo} />
+            <TodoAdd todos={todos} createTodo={createTodo} />
             <TodoList setTodos={setTodos} todoFilter={todoFilter} completeTask={completeTask} removeTodo={removeTodo} todos={todos} />
             <Pagination todosPrePage={todosPrePage} totalTodo={totalTodo} todoPagination={todoPagination}/>
         </div>

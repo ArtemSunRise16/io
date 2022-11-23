@@ -7,6 +7,7 @@ import { Context } from './components/context.js'
 function App() {
   const [pageActive, setPageActive] = useState(1)
   const [active, setActive] = useState('all')
+  const [activeSorted, setActiveSorted] = useState(false)
   const [filter, setFilter] = useState('all')
   const [sort, setSort] = useState(true)
   const [todos, setTodos] = useState([
@@ -71,11 +72,12 @@ function App() {
     setPageActive(1)
   }
 
-  function sortByDate(state) {
+  function sortByDate(state, activeSorted) {
     setActive('sort')
     setSort(state)
     setCurrentPage(1)
     setPageActive(1)
+    setActiveSorted(activeSorted)
   }
 
   function todoPagination(page) {
@@ -93,12 +95,18 @@ function App() {
     setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
   }
 
+  if(paginationTodos.length <= 0 && currentPage > 1) {
+    setCurrentPage(prev => prev - 1)
+    setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
+  }
+
 
   return (
     <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage }}>
       <div className='Wrapper'>
         <div className="app">
           <TodoNavigator
+            activeSorted={activeSorted}
             active={active}
             setActive={setActive}
             filterState={filterState}

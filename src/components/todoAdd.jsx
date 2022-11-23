@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import '../style/todoAdd.css'
 
-function TodoAdd({ createTodo }) {
+function TodoAdd({ createTodo, todos }) {
 
     const [title, setTitle] = useState('')
 
@@ -10,7 +10,9 @@ function TodoAdd({ createTodo }) {
     }
 
     function addNewTodo() {
-        if(title.trim() === '') return
+        if (title.trim() === '') return null
+        if (todos.map(item => item.title).includes(title)) return setTitle('')
+
         const d = new Date()
 
         const newTodo = {
