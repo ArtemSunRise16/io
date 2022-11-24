@@ -14,9 +14,10 @@
     font-weight: 300;
 }
 
-@media screen and (min-width: 0px) and (max-width:999px) { 
+@media screen and (min-width: 0px) and (max-width:999px) {
     .app {
         flex-direction: column;
         display: inline-block;
-    } 
+        height: 90vh;
+    }
 }

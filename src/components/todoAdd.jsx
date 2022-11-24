@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import '../style/todoAdd.css'
+import { Context } from "./context";
 
 function TodoAdd({ createTodo, todos }) {
+
+    const { loading } = useContext(Context)
 
     const [name, setName] = useState('')
 
@@ -11,7 +14,6 @@ function TodoAdd({ createTodo, todos }) {
 
     function addNewTodo() {
         if (name.trim() === '') return null
-        if (todos.map(item => item.name).includes(name)) return setName('')
 
         const d = new Date()
 
@@ -26,15 +28,15 @@ function TodoAdd({ createTodo, todos }) {
     }
 
 
-function submitHandler(event) {
-    event.preventDefault()
-}
+    function submitHandler(event) {
+        event.preventDefault()
+    }
 
-    
+
 
     return (
-        <form className="todo__new" onSubmit={submitHandler}>
-            <input type="text" placeholder="Add a new tasks" value={name} onChange={onChangeHandler}></input>
+        <form aria-disabled={loading} className="todo__new" onSubmit={submitHandler}>
+            <input  type="text" placeholder="Add a new tasks" value={name} onChange={onChangeHandler}></input>
             <button className="todo__add" onClick={addNewTodo} >+</button>
         </form>
     )

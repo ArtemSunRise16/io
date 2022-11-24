@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'https://todo-api-learning.herokuapp.com/v1/task',
+    baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 export const getTasks = (filter, paramsSort, todosPrePage, currentPage) => {
-    return axios.get(process.env.REACT_APP_URL_ALL_TASKS + process.env.REACT_APP_USER_ID, {
+    return instance.get(`/tasks/${process.env.REACT_APP_USER_ID}`, {
         params: {
             filterBy: filter,
             order: paramsSort,
@@ -18,7 +18,7 @@ export const getTasks = (filter, paramsSort, todosPrePage, currentPage) => {
 }
 
 export const postCreateTodo = (newTodo) => {
-    return instance.post(process.env.REACT_APP_USER_ID, {
+    return instance.post(`/task/${process.env.REACT_APP_USER_ID}`, {
         name: newTodo.name,
         done: newTodo.done,
         createdAt: newTodo.createdAt,
@@ -27,11 +27,11 @@ export const postCreateTodo = (newTodo) => {
 }
 
 export const deletTask = (id) => {
-    return instance.delete(`${process.env.REACT_APP_USER_ID}/${id}`)
+    return instance.delete(`/task/${process.env.REACT_APP_USER_ID}/${id}`)
 }
 
 export const patchCompleteTask = (todo) => {
-    return instance.patch(`${process.env.REACT_APP_USER_ID}/${todo.uuid}`, {
+    return instance.patch(`/task/${process.env.REACT_APP_USER_ID}/${todo.uuid}`, {
         name: todo.name,
         done: !todo.done,
         createdAt: todo.createdAt,
@@ -40,7 +40,7 @@ export const patchCompleteTask = (todo) => {
 }
 
 export const patchSaveTask = (id, value, todo) => {
-    return instance.patch(`${process.env.REACT_APP_USER_ID}/${id}`, {
+    return instance.patch(`/task/${process.env.REACT_APP_USER_ID}/${id}`, {
         name: value,
         done: todo.done,
         createdAt: todo.createdAt,

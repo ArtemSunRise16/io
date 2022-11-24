@@ -1,6 +1,7 @@
 .todo__content {
     margin: 20px;
     flex-grow: 1;
+    flex-wrap: wrap;
 }
 
 .todo__title {
@@ -16,10 +17,21 @@
     flex-grow: 1;
 }
 
-.todo__list div {
-    margin-bottom: 10px;
+.todo__list__edit {
+    display: flex;
+    font-size: 30px;
+    align-items: center;
+    flex-grow: 1;
 }
 
+.todo__list div {
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    word-break: break-all;
+}
 
 .todo__task__checkbox {
     height: 20px;
@@ -27,13 +39,16 @@
 }
 
 .todo__task__text {
+    display: flex;
     padding-left: 8px;
     font-size: 20px;
 }
 
 .todo__task__date {
+    display: flex;
     font-size: 15px;
     color: black;
+    margin-left: 20px;
 }
 
 .todo__list:hover .todo__task__del {
@@ -42,7 +57,6 @@
 }
 
 .todo__task__del {
-    /* background: url('../img/trash.png') left no-repeat; */
     transition: all 0.3s;
     opacity: 0;
     font-size: 38px;
@@ -85,5 +99,10 @@
     border: 1px solid black;
     margin-left: 10px;
     margin: 10px;
+}
+
+h3 {
+    font-size: 25px;
+    text-align: center;
 }
 

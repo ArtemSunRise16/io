@@ -13,8 +13,8 @@ function TodoContent({ error, setError, todoPagination, totalTodo, todosPrePage,
 
     return (
         <div className="todo__content">
-            <h1 className="todo__title">Tasks</h1>
-            {error ? <Modal error={error} setError={setError}><p>Слишком быстро удаляете. Подождите, пожалуйста</p></Modal> : null}
+            {error === error && error != null ? <Modal error={error} setError={setError}><p>{error}</p></Modal> : null}
+            <h1 className="todo__title">Заметки — и точка</h1>
             <TodoAdd todos={todos} createTodo={createTodo} />
             {todos.length ? <TodoList saveTodo={saveTodo} completeTask={completeTask} removeTodo={removeTodo} todos={todos} /> : <h3>Нет заметок</h3>}
             <Pagination todosPrePage={todosPrePage} totalTodo={totalTodo} todoPagination={todoPagination} />
@@ -35,5 +35,3 @@ export default TodoContent;
 // )
 // }
 
-
-{/* {error ? <Modal error={error} setError={setError}><p>Слишком быстро удаляете. Подождите, пожалуйста</p></Modal> : null} */ }

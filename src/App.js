@@ -4,11 +4,10 @@ import TodoNavigator from './components/todoNavigator';
 import React, { useEffect, useState } from 'react';
 import { Context } from './components/context.js'
 import { getTasks, postCreateTodo, deletTask, patchCompleteTask, patchSaveTask } from './services/API';
-import Modal from './components/popup';
 
 function App() {
 
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(null)
 
   const [pageActive, setPageActive] = useState(1)
 
@@ -30,7 +29,7 @@ function App() {
 
   const [currentPage, setCurrentPage] = useState(1)
 
-  const todosPrePage = 6
+  const todosPrePage = 7
 
 
   const getTodo = async () => {
@@ -40,9 +39,9 @@ function App() {
       setCountTodos(res.count)
       setTodos(res.tasks)
       setLoading(false)
-      console.log(res);
     } catch (e) {
-      console.log(e);
+      setError('Ошибка загрузки заметок')
+      setTimeout(() => { setError(null) }, 1000)
     }
   }
 
@@ -75,8 +74,16 @@ function App() {
   }
 
   async function createTodo(newTodo) {
-    await postCreateTodo(newTodo)
-    getTodo()
+    try {
+      setLoading(true)
+      await postCreateTodo(newTodo)
+      getTodo()
+      setLoading(false)
+    } catch (e) {
+      setError('Не удалось создать заметку/либо она уже существует')
+      setTimeout(() => { setError(null) }, 1000)
+      setLoading(false)
+    }
   }
 
   async function removeTodo(id) {
@@ -84,18 +91,32 @@ function App() {
       await deletTask(id)
       getTodo()
     } catch (e) {
-      setError(true)
+      setError('Слишком быстро удаляете. Подождите, пожалуйста')
+      setTimeout(() => { setError(null) }, 1000)
     }
   }
 
   async function completeTask(todo) {
-    await patchCompleteTask(todo)
-    getTodo()
+    try {
+      await patchCompleteTask(todo)
+      getTodo()
+    }
+    catch (e) {
+      setError('Не удалось отметить заметку')
+      setTimeout(() => { setError(null) }, 1000)
+    }
   }
 
   async function saveTodo(id, value, todo) {
-    await patchSaveTask(id, value, todo)
-    getTodo()
+    try {
+      await patchSaveTask(id, value, todo)
+      getTodo()
+    }
+    catch (e) {
+      setError('Не удалось сохранить изменения')
+      setTimeout(() => { setError(null) }, 1000)
+    }
+
   }
 
   function todoPagination(page) {
@@ -118,8 +139,10 @@ function App() {
     setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
   }
 
+
+
   return (
-    <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage }}>
+    <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage, loading }}>
       <div className='Wrapper'>
         <div className="app">
           <TodoNavigator

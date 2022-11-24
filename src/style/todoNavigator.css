@@ -1,8 +1,8 @@
 .todo__navigator {
     display: flex;
     justify-content: center;
-    width: 200px;
     border-right: 2px solid #EA5959;
+    width: 200px;
 }
 
 

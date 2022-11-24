@@ -1,10 +1,9 @@
 import React from "react";
 import TodoItem from './todoItem'
-import axios from "axios";
 function TodoList({ completeTask, removeTodo, todos, saveTodo }) {
 
 
-   
+   // loader
 
     return (
         <div>
