@@ -18,12 +18,12 @@ function Pagination({ todosPrePage, totalTodo, todoPagination }) {
         <div className="todo__pagination">
             {currentPage >= 2 && <button className="todo__pagination__button" onClick={() => pastPage()}>{'<<'}</button>}
             {currentPage >= 3 && <button className="todo__pagination__button" onClick={() => pastPage()}>{'...'}</button>}
-            {pageNumber.map(page => {
-                if (page === currentPage || page === currentPage + 1 || page === currentPage - 1) {
+            {pageNumber.length === 1 ? null : pageNumber.map(page => {
+                if (page === currentPage || page === currentPage + 1 || page === currentPage - 1 ) {
 
                     return <button className={`todo__pagination__button ${pageActive === page && 'pageActive'}`} onClick={() => todoPagination(page)} key={page}>{page}</button>
 
-                } 
+                }
                 return null
             })}
             {currentPage < Math.ceil(totalTodo / todosPrePage) - 1 && <button className="todo__pagination__button" onClick={() => nextPage()}>{'...'}</button>}

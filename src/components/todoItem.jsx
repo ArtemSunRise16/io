@@ -4,8 +4,9 @@ import { BsTrash } from "react-icons/bs";
 import { Context } from "./context";
 
 function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
-
-    const { loading } = useContext(Context)
+    let loading = false
+    console.log(loading, '1123123123');
+    // const { loading, setLoading } = useContext(Context)
 
     const [value, setValue] = useState('')
     const [edit, setEdit] = useState(null)
@@ -27,6 +28,8 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
     }
 
     const onClickHandler = () => {
+        loading = true
+        console.log(loading);
         removeTodo(todo.uuid)
     }
 
@@ -59,7 +62,7 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
                             {todo.createdAt}
                         </div>
 
-                        <button onClick={onClickHandler} className="todo__task__del"><BsTrash></BsTrash></button>
+                        <button disabled={loading} onClick={onClickHandler} className="todo__task__del"><BsTrash></BsTrash></button>
                     </div>
 
             }

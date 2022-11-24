@@ -80,7 +80,7 @@ function App() {
       getTodo()
       setLoading(false)
     } catch (e) {
-      setError('Не удалось создать заметку/либо она уже существует')
+      setError(e.response.data.message)
       setTimeout(() => { setError(null) }, 1000)
       setLoading(false)
     }
@@ -91,7 +91,7 @@ function App() {
       await deletTask(id)
       getTodo()
     } catch (e) {
-      setError('Слишком быстро удаляете. Подождите, пожалуйста')
+      setError(e.response.data.message)
       setTimeout(() => { setError(null) }, 1000)
     }
   }
@@ -102,7 +102,7 @@ function App() {
       getTodo()
     }
     catch (e) {
-      setError('Не удалось отметить заметку')
+      setError(e.response.data.message)
       setTimeout(() => { setError(null) }, 1000)
     }
   }
@@ -113,7 +113,7 @@ function App() {
       getTodo()
     }
     catch (e) {
-      setError('Не удалось сохранить изменения')
+      setError(e.response.data.message)
       setTimeout(() => { setError(null) }, 1000)
     }
 
@@ -142,7 +142,7 @@ function App() {
 
 
   return (
-    <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage, loading }}>
+    <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage, loading, setLoading }}>
       <div className='Wrapper'>
         <div className="app">
           <TodoNavigator
