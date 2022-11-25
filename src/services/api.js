@@ -4,13 +4,13 @@ const instance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-export const getTasks = (filter, paramsSort, todosPrePage, currentPage) => {
+export const getTasks = (options) => {
     return instance.get(`/tasks/${process.env.REACT_APP_USER_ID}`, {
         params: {
-            filterBy: filter,
-            order: paramsSort,
-            pp: todosPrePage,
-            page: currentPage,
+            filterBy: options.filter,
+            order: options.paramsSort,
+            pp: options.todosPrePage,
+            page: options.currentPage,
         }
     }).then(res => {
         return res.data

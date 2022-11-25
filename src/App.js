@@ -3,45 +3,30 @@ import TodoContent from './components/todoContent';
 import TodoNavigator from './components/todoNavigator';
 import React, { useEffect, useState } from 'react';
 import { Context } from './components/context.js'
-import { getTasks, postCreateTodo, deletTask, patchCompleteTask, patchSaveTask } from './services/API';
+import { getTasks, postCreateTodo, deletTask, patchCompleteTask, patchSaveTask } from './services/api';
 
 function App() {
 
   const [error, setError] = useState(null)
-
-  const [pageActive, setPageActive] = useState(1)
-
-  const [active, setActive] = useState('')
-
-  const [activeSorted, setActiveSorted] = useState(false)
-
   const [filter, setFilter] = useState('')
-
   const [sort, setSort] = useState(true)
-
-  const [paramsSort, setParamsSort] = useState('')
-
+  const [directionSort, setDirectionSort] = useState('')
   const [todos, setTodos] = useState([])
-
   const [loading, setLoading] = useState(false)
-
-  const [countTodos, setCountTodos] = useState(0)
-
+  const [totalTodos, setTotalTodos] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
-
   const todosPrePage = 7
 
 
   const getTodo = async () => {
     try {
       setLoading(true)
-      const res = await getTasks(filter, paramsSort, todosPrePage, currentPage)
-      setCountTodos(res.count)
+      const res = await getTasks({filter, directionSort, todosPrePage, currentPage})
+      setTotalTodos(res.count)
       setTodos(res.tasks)
       setLoading(false)
     } catch (e) {
-      setError('Ошибка загрузки заметок')
-      setTimeout(() => { setError(null) }, 1000)
+      setError(e.response.data?.message)
     }
   }
 
@@ -54,23 +39,17 @@ function App() {
   function filterState(state) {
     setCurrentPage(1)
     setFilter(state)
-    setActive(state)
-    setPageActive(1)
   }
 
-  function sortByDate(state, activeSorted) {
-    setActive('sort')
+  function sortByDate(state) {
     setSort(state)
     setCurrentPage(1)
     setSort(state)
     if (sort) {
-      setParamsSort('asc')
+      setDirectionSort('asc')
     } else {
-      setParamsSort('desc')
+      setDirectionSort('desc')
     }
-    setActive('sort')
-    setPageActive(1)
-    setActiveSorted(activeSorted)
   }
 
   async function createTodo(newTodo) {
@@ -81,7 +60,6 @@ function App() {
       setLoading(false)
     } catch (e) {
       setError(e.response.data.message)
-      setTimeout(() => { setError(null) }, 1000)
       setLoading(false)
     }
   }
@@ -92,7 +70,6 @@ function App() {
       getTodo()
     } catch (e) {
       setError(e.response.data.message)
-      setTimeout(() => { setError(null) }, 1000)
     }
   }
 
@@ -103,7 +80,6 @@ function App() {
     }
     catch (e) {
       setError(e.response.data.message)
-      setTimeout(() => { setError(null) }, 1000)
     }
   }
 
@@ -114,44 +90,43 @@ function App() {
     }
     catch (e) {
       setError(e.response.data.message)
-      setTimeout(() => { setError(null) }, 1000)
     }
 
   }
 
+  useEffect(() => {
+    if (error != null) {
+      setTimeout(() => {setError(null)}, 1000)
+    }
+  }, [error])
+
   function todoPagination(page) {
     setCurrentPage(page)
-    setPageActive(page)
   }
 
   function nextPage() {
-    setCurrentPage(next => next === Math.ceil(countTodos / todosPrePage) ? next : next + 1)
-    setPageActive(nextPage => nextPage === Math.ceil(countTodos / todosPrePage) ? nextPage : nextPage + 1)
+    setCurrentPage(next => next === Math.ceil(totalTodos / todosPrePage) ? next : next + 1)
   }
 
   function pastPage() {
     setCurrentPage(past => past === 1 ? 1 : past - 1)
-    setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
   }
 
   if (todos.length <= 0 && currentPage > 1) {
     setCurrentPage(prev => prev - 1)
-    setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
   }
 
 
 
   return (
-    <Context.Provider value={{ nextPage, pastPage, pageActive, currentPage, loading, setLoading }}>
+    <Context.Provider value={{ nextPage, pastPage, currentPage, loading, setLoading }}>
       <div className='Wrapper'>
         <div className="app">
           <TodoNavigator
-            activeSorted={activeSorted}
             filterState={filterState}
+            filter={filter}
             sortByDate={sortByDate}
             isSorted={sort}
-            active={active}
-            setActive={setActive}
           />
           <TodoContent
             error={error}
@@ -163,7 +138,7 @@ function App() {
             createTodo={createTodo}
             saveTodo={saveTodo}
             todosPrePage={todosPrePage}
-            totalTodo={countTodos}
+            totalTodo={totalTodos}
             todoPagination={todoPagination} />
         </div>
       </div>

@@ -5,7 +5,7 @@ import { Context } from "./context";
 function Pagination({ todosPrePage, totalTodo, todoPagination }) {
 
 
-    const { nextPage, pastPage, pageActive, currentPage } = useContext(Context)
+    const { nextPage, pastPage, currentPage } = useContext(Context)
 
     const pageNumber = []
 
@@ -21,7 +21,7 @@ function Pagination({ todosPrePage, totalTodo, todoPagination }) {
             {pageNumber.length === 1 ? null : pageNumber.map(page => {
                 if (page === currentPage || page === currentPage + 1 || page === currentPage - 1 ) {
 
-                    return <button className={`todo__pagination__button ${pageActive === page && 'pageActive'}`} onClick={() => todoPagination(page)} key={page}>{page}</button>
+                    return <button className={`todo__pagination__button ${currentPage === page && 'pageActive'}`} onClick={() => todoPagination(page)} key={page}>{page}</button>
 
                 }
                 return null
