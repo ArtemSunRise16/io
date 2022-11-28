@@ -4,13 +4,14 @@ import TodoNavigator from './components/todoNavigator';
 import React, { useEffect, useState } from 'react';
 import { Context } from './components/context.js'
 import { getTasks, postCreateTodo, deletTask, patchCompleteTask, patchSaveTask } from './services/api';
+import Modal from './components/popup';
+
 
 function App() {
 
   const [error, setError] = useState(null)
   const [filter, setFilter] = useState('')
-  const [sort, setSort] = useState(true)
-  const [directionSort, setDirectionSort] = useState('')
+  const [sort, setSort] = useState('asc')
   const [todos, setTodos] = useState([])
   const [loading, setLoading] = useState(false)
   const [totalTodos, setTotalTodos] = useState(0)
@@ -21,9 +22,9 @@ function App() {
   const getTodo = async () => {
     try {
       setLoading(true)
-      const res = await getTasks({filter, directionSort, todosPrePage, currentPage})
-      setTotalTodos(res.count)
-      setTodos(res.tasks)
+      const {data: { count, tasks }} = await getTasks({filter, sort, todosPrePage, currentPage})
+      setTotalTodos(count)
+      setTodos(tasks)
       setLoading(false)
     } catch (e) {
       setError(e.response.data?.message)
@@ -41,15 +42,11 @@ function App() {
     setFilter(state)
   }
 
-  function sortByDate(state) {
-    setSort(state)
+  function sortByDate(value) {
+    console.log(value);
+    setSort(value)
     setCurrentPage(1)
-    setSort(state)
-    if (sort) {
-      setDirectionSort('asc')
-    } else {
-      setDirectionSort('desc')
-    }
+
   }
 
   async function createTodo(newTodo) {
@@ -96,7 +93,7 @@ function App() {
 
   useEffect(() => {
     if (error != null) {
-      setTimeout(() => {setError(null)}, 1000)
+      setTimeout(() => {setError(null)}, 2000)
     }
   }, [error])
 
@@ -141,6 +138,7 @@ function App() {
             totalTodo={totalTodos}
             todoPagination={todoPagination} />
         </div>
+        {error === error && error != null ? <Modal error={error} setError={setError}/> : null}
       </div>
     </Context.Provider>
   );

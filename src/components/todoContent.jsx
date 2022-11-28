@@ -1,7 +1,5 @@
-import React from "react";
 import '../style/todoContent.css'
-import Pagination from "./pagination";
-import Modal from "./popup";
+import {Pagination} from "./pagination";
 import TodoAdd from "./todoAdd";
 import TodoList from "./todoList";
 
@@ -9,11 +7,8 @@ import TodoList from "./todoList";
 
 function TodoContent({ error, setError, todoPagination, totalTodo, todosPrePage, saveTodo, completeTask, removeTodo, todos, createTodo }) {
 
-
-
     return (
         <div className="todo__content">
-            {error === error && error != null ? <Modal error={error} setError={setError}><p>{error}</p></Modal> : null}
             <h1 className="todo__title">Заметки — и точка</h1>
             <TodoAdd todos={todos} createTodo={createTodo} />
             {todos.length ? <TodoList saveTodo={saveTodo} completeTask={completeTask} removeTodo={removeTodo} todos={todos} /> : <h3>Нет заметок</h3>}
@@ -34,4 +29,3 @@ export default TodoContent;
 {/* </div> */ }
 // )
 // }
-

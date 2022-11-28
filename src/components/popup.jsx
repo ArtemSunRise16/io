@@ -1,11 +1,12 @@
 import React from "react";
 import '../style/modal.css'
 
-function Modal({ error, setError, children }) {
+function Modal({ error, setError}) {
+    console.log(error);
     return (
         <div className='modal' onClick={() => setError(null)} >
             <div className="modal__content">
-                {children}
+            {error}
             </div>
         </div>
     )
