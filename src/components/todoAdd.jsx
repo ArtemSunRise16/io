@@ -1,45 +1,64 @@
-import React, { useContext, useState } from "react";
-import '../style/todoAdd.css'
-import { Context } from "./context";
+import { Button, Input, Box } from "@chakra-ui/react";
+import React, { useState } from "react";
 
-function TodoAdd({ createTodo, todos }) {
+function TodoAdd({ createTodo }) {
+  // const { loading } = useContext(Context);
 
-    const { loading } = useContext(Context)
+  const [name, setName] = useState("");
 
-    const [name, setName] = useState('')
+  const onChangeHandler = (event) => {
+    setName(event.target.value);
+  };
 
-    const onChangeHandler = (event) => {
-        setName(event.target.value);
-    }
+  function addNewTodo() {
+    if (name.trim() === "") return null;
 
-    function addNewTodo() {
-        if (name.trim() === '') return null
+    const d = new Date();
 
-        const d = new Date()
+    const newTodo = {
+      name: name,
+      done: false,
+      createdAt: d.toLocaleString(),
+      updatedAt: d.getTime(),
+    };
+    createTodo(newTodo);
+    setName("");
+  }
 
-        const newTodo = {
-            name: name,
-            done: false,
-            createdAt: d.toLocaleString(),
-            updatedAt: d.getTime(),
-        }
-        createTodo(newTodo)
-        setName('')
-    }
+  function submitHandler(event) {
+    event.preventDefault();
+  }
 
-
-    function submitHandler(event) {
-        event.preventDefault()
-    }
-
-
-
-    return (
-        <form aria-disabled={loading} className="todo__new" onSubmit={submitHandler}>
-            <input  type="text" placeholder="Add a new tasks" value={name} onChange={onChangeHandler}></input>
-            <button className="todo__add" onClick={addNewTodo} >+</button>
-        </form>
-    )
+  return (
+    <Box
+      display="flex"
+      mb="16px"
+      alignItems="center"
+      className="todo__new"
+      onSubmit={submitHandler}
+    >
+      <Input
+        fontSize="16px"
+        mr="16px"
+        p="8px 10px"
+        type="text"
+        borderRadius="5px"
+        placeholder="Add a new tasks"
+        value={name}
+        onChange={onChangeHandler}
+      ></Input>
+      <Button
+        fontSize="30px"
+        textAlign="center"
+        maxH="50px"
+        maxW="50px"
+        color="#EA5959"
+        onClick={addNewTodo}
+      >
+        +
+      </Button>
+    </Box>
+  );
 }
 
-export default TodoAdd
+export default TodoAdd;

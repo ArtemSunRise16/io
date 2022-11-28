@@ -1,30 +1,30 @@
-.todo__content {
+/* .todo__content {
     margin: 20px;
     flex-grow: 1;
     flex-wrap: wrap;
-}
+} */
 
-.todo__title {
+/* .todo__title {
     font-size: 40px;
     font-weight: 600;
     margin-bottom: 16px;
-}
+} */
 
-.todo__list {
+/* .todo__list {
     display: flex;
     font-size: 30px;
     align-items: center;
     flex-grow: 1;
-}
+} */
 
-.todo__list__edit {
+/* .todo__list__edit {
     display: flex;
     font-size: 30px;
     align-items: center;
     flex-grow: 1;
-}
+} */
 
-.todo__list div {
+/* .todo__list div {
     display: flex;
     margin-bottom: 10px;
     justify-content: center;
@@ -68,27 +68,27 @@
     margin-right: 16px;
     height: 50px;
     width: 50px;
-}
+} */
 
-.todo__navigator__items button {
+/* .todo__navigator__items button {
     margin-bottom: 40px;
     background: none;
     font-size: 22px;
-}
+} */
 
-.todo__pagination {
+/* .todo__pagination {
     display: flex;
     justify-content: center;
-}
+} */
 
-.todo__pagination__button{
+/* .todo__pagination__button{
     color: #EA5959;
     font-size: 20px;
     border: 1px solid #EA5959;
     width: 28px;
     border-radius: 10px;
     margin: 2px;
-}
+} */
 
 .pageActive {
     background: #EA5959;

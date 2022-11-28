@@ -1,7 +1,7 @@
 import React from "react";
-import "../style/navigatorItem.css";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import { AiOutlineArrowUp } from "react-icons/ai";
+import { Box, Button, Flex, VStack } from "@chakra-ui/react";
 
 function NavigatorItem({ filterState, sortByDate, isSorted, filter }) {
   function onClickHandlerDone() {
@@ -22,35 +22,43 @@ function NavigatorItem({ filterState, sortByDate, isSorted, filter }) {
   }
 
   return (
-    <div className="todo__navigator__items">
-      <button
-        className={filter === "" ? "active" : undefined}
+    <VStack spacing={10} direction={["row", "column"]} justifyContent="center">
+      <Button
+        bg="none"
+        fontSize="20px"
+        color={filter === "" ? "#EA5959" : undefined}
         onClick={onClickHandlerAll}
       >
         All
-      </button>
-      <button
-        className={filter === "done" ? "active" : undefined}
+      </Button>
+      <Button
+        fontSize="20px"
+        bg="none"
+        color={filter === "done" ? "#EA5959" : undefined}
         onClick={onClickHandlerDone}
       >
         Done
-      </button>
-      <button
-        className={filter === "undone" ? "active" : undefined}
+      </Button>
+      <Button
+        fontSize="20px"
+        bg="none"
+        color={filter === "undone" ? "#EA5959" : undefined}
         onClick={onClickHandlerUnDone}
       >
         Undone
-      </button>
-      <span>
-        <button onClick={OnClickHandlerDate}>Sort</button>
-        <span className={isSorted === "asc" ? "active" : undefined}>
+      </Button>
+      <Box>
+        <Button fontSize="20px" bg="none" onClick={OnClickHandlerDate}>
+          Sort
+        </Button>
+        <Button bg="none" color={isSorted === "asc" ? "#EA5959" : undefined}>
           <AiOutlineArrowDown></AiOutlineArrowDown>
-        </span>
-        <span className={isSorted === "desc" ? "active" : undefined}>
+        </Button>
+        <Button bg="none" color={isSorted === "desc" ? "#EA5959" : undefined}>
           <AiOutlineArrowUp></AiOutlineArrowUp>
-        </span>
-      </span>
-    </div>
+        </Button>
+      </Box>
+    </VStack>
   );
 }
 

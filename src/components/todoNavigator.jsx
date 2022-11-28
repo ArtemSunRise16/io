@@ -1,24 +1,18 @@
 import React from "react";
-import "../style/todoNavigator.css";
 import NavigatorItem from "./navigatorItem";
-// function TodoNavigator( {filterState, sortByDate, isSorted, active, setActive} )
+import { Flex } from "@chakra-ui/react";
+
 function TodoNavigator({ filterState, sortByDate, isSorted, filter }) {
   return (
-    <div className="todo__navigator">
+    <Flex borderRight="1px solid #EA5959" justifyContent="center">
       <NavigatorItem
         filterState={filterState}
         sortByDate={sortByDate}
         isSorted={isSorted}
         filter={filter}
       />
-    </div>
+    </Flex>
   );
 }
 
 export default TodoNavigator;
-
-// filterState={filterState}
-// sortByDate={sortByDate}
-// isSorted={isSorted}
-// active={active}
-// setActive={setActive}

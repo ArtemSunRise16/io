@@ -1,11 +1,11 @@
-import './app.css';
 import TodoContent from './components/todoContent';
 import TodoNavigator from './components/todoNavigator';
 import React, { useEffect, useState } from 'react';
 import { Context } from './components/context.js'
 import { getTasks, postCreateTodo, deletTask, patchCompleteTask, patchSaveTask } from './services/api';
 import Modal from './components/popup';
-
+import { ChakraProvider, Box } from '@chakra-ui/react';
+import { Theme } from './style/Theme'
 
 function App() {
 
@@ -30,7 +30,6 @@ function App() {
       setError(e.response.data?.message)
     }
   }
-
 
   useEffect(() => {
     getTodo()
@@ -116,9 +115,9 @@ function App() {
 
 
   return (
-    <Context.Provider value={{ nextPage, pastPage, currentPage, loading, setLoading }}>
-      <div className='Wrapper'>
-        <div className="app">
+    <ChakraProvider theme={Theme}>
+      <Context.Provider value={{ nextPage, pastPage, currentPage, loading, setLoading }}>
+        <Box display='flex' p='32px' bg='#fff' flexGrow='1' maxW='1000px' h='80vh' borderRadius='10px' className="app">
           <TodoNavigator
             filterState={filterState}
             filter={filter}
@@ -137,100 +136,11 @@ function App() {
             todosPrePage={todosPrePage}
             totalTodo={totalTodos}
             todoPagination={todoPagination} />
-        </div>
+        </Box>
         {error === error && error != null ? <Modal error={error} setError={setError}/> : null}
-      </div>
-    </Context.Provider>
+      </Context.Provider>
+    </ChakraProvider>
   );
 }
 
 export default App;
-
-
-    // const lastTodoIndex = currentPage * todosPrePage
-    // const firstTodoIndex = lastTodoIndex - todosPrePage
-    // const currentTodoPage = todos.slice(firstTodoIndex, lastTodoIndex)
-
-  // function createTodo(newTodo) {
-  //   setTodos([newTodo, ...todos])
-  // }
-
-  // const sortedTodos = (() => {
-
-  //   const stateSort = sort
-  //     ? todos.sort((a, b) => a.dateForSort - b.dateForSort)
-  //     : todos.sort((a, b) => b.dateForSort - a.dateForSort)
-  //   return stateSort;
-  // })()
-
-
-  // const filteredTodos = (() => {
-  //   const stateFilter = filter === 'all'
-  //     ? sortedTodos
-  //     : sortedTodos.filter((item) => item.completed === filter);
-  //   return stateFilter;
-  // })()
-
-  // const [currentPage, setCurrentPage] = useState(1)
-  // const todosPrePage = 6
-
-
-  // const paginationTodos = (() => {
-  //   const lastTodoIndex = currentPage * todosPrePage
-  //   const firstTodoIndex = lastTodoIndex - todosPrePage
-  //   const currentTodoPage = filteredTodos.slice(firstTodoIndex, lastTodoIndex)
-  //   return currentTodoPage;
-  // })()
-
-  // function completeTask(id) {
-  //   setTodos(
-  //     todos.map(item => {
-  //       return { ...item, done: item.uuid === id ? !item.done : item.done }
-  //     })
-  //   )
-  // }
-
-  // function removeTodo(id) {
-  //   setTodos(todos.filter(item => item.uuid !== id))
-  // }
-
-
-
-  //  async function filterState(state) {
-  //     setLoading(true)
-  //     const res = await axios.get(`https://todo-api-learning.herokuapp.com/v1/tasks/1?filterBy=${state}&order=asc&pp=6&page=1`)
-  //     setTodos(res.data.tasks)
-
-  //   getTodo()
-  //   //  setFilter(state)
-  //   //  setCurrentPage(1)
-  //   //  setActive(state)
-  //   //  setPageActive(1)
-  //  }
-
-  // function sortByDate(state) {
-  //   setActive('sort')
-  //   setSort(state)
-  //   if(state){
-  //     setSort('asc')
-  //   } else {
-  //     setSort('desc')
-  //   }
-  //   setCurrentPage(1)
-  //   setPageActive(1)
-  // }
-
-  // function todoPagination(page) {
-  //   setCurrentPage(page)
-  //   setPageActive(page)
-  // }
-
-  // function nextPage() {
-  //   setCurrentPage(next => next === Math.ceil(filteredTodos.length / todosPrePage) ? next : next + 1)
-  //   setPageActive(nextPage => nextPage === Math.ceil(filteredTodos.length / todosPrePage) ? nextPage : nextPage + 1)
-  // }
-
-  // function pastPage() {
-  //   setCurrentPage(past => past === 1 ? 1 : past - 1)
-  //   setPageActive(pastPage => pastPage === 1 ? 1 : pastPage - 1)
-  // }

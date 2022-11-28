@@ -1,31 +1,39 @@
-import '../style/todoContent.css'
-import {Pagination} from "./pagination";
+import { Box, Heading } from "@chakra-ui/react";
+import { Pagination } from "./pagination";
 import TodoAdd from "./todoAdd";
 import TodoList from "./todoList";
 
-// function TodoContent({ todoFilter, completeTask, removeTodo, createTodo, todosPrePage, totalTodo, todoPagination, todos, setTodos })
-
-function TodoContent({ error, setError, todoPagination, totalTodo, todosPrePage, saveTodo, completeTask, removeTodo, todos, createTodo }) {
-
-    return (
-        <div className="todo__content">
-            <h1 className="todo__title">Заметки — и точка</h1>
-            <TodoAdd todos={todos} createTodo={createTodo} />
-            {todos.length ? <TodoList saveTodo={saveTodo} completeTask={completeTask} removeTodo={removeTodo} todos={todos} /> : <h3>Нет заметок</h3>}
-            <Pagination todosPrePage={todosPrePage} totalTodo={totalTodo} todoPagination={todoPagination} />
-        </div>
-    )
+function TodoContent({
+  todoPagination,
+  totalTodo,
+  todosPrePage,
+  saveTodo,
+  completeTask,
+  removeTodo,
+  todos,
+  createTodo,
+}) {
+  return (
+    <Box m="20px" className="todo__content">
+      <Heading mb="16px">Заметки — и точка</Heading>
+      <TodoAdd todos={todos} createTodo={createTodo} />
+      {todos.length ? (
+        <TodoList
+          saveTodo={saveTodo}
+          completeTask={completeTask}
+          removeTodo={removeTodo}
+          todos={todos}
+        />
+      ) : (
+        <h3>Нет заметок</h3>
+      )}
+      <Pagination
+        todosPrePage={todosPrePage}
+        totalTodo={totalTodo}
+        todoPagination={todoPagination}
+      />
+    </Box>
+  );
 }
 
 export default TodoContent;
-
-
-// return (
-// <div className="todo__content">
-{/* <h1 className="todo__title">Tasks</h1> */ }
-{/* <TodoAdd createTodo={createTodo} /> */ }
-{/* <TodoList setTodos={setTodos} todoFilter={todoFilter} completeTask={completeTask} removeTodo={removeTodo} todos={todos} /> */ }
-{/* <Pagination todosPrePage={todosPrePage} totalTodo={totalTodo} todoPagination={todoPagination}/> */ }
-{/* </div> */ }
-// )
-// }
