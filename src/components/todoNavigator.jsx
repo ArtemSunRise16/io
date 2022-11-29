@@ -1,17 +1,23 @@
 import React from "react";
 import NavigatorItem from "./navigatorItem";
-import { Flex } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 
 function TodoNavigator({ filterState, sortByDate, isSorted, filter }) {
+  const [isSmallThan850] = useMediaQuery("(max-width: 850px)");
+
   return (
-    <Flex borderRight="1px solid #EA5959" justifyContent="center">
+    <Box
+      borderRight={isSmallThan850 ? "none" : "1px solid #EA5959"}
+      display="flex"
+      justifyContent="center"
+    >
       <NavigatorItem
         filterState={filterState}
         sortByDate={sortByDate}
         isSorted={isSorted}
         filter={filter}
       />
-    </Flex>
+    </Box>
   );
 }
 

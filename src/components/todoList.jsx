@@ -6,7 +6,7 @@ function TodoList({ completeTask, removeTodo, todos, saveTodo }) {
   // loader
 
   return (
-    <Box w="700px">
+    <Box>
       {todos.map((todo) => {
         return (
           <TodoItem

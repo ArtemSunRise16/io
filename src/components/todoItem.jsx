@@ -1,4 +1,11 @@
-import { Box, Checkbox, IconButton, Input, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Checkbox,
+  IconButton,
+  Input,
+  Text,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 
@@ -25,7 +32,6 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
 
   const onClickHandler = () => {
     setIsLoader(true);
-    console.log(isLoader);
     removeTodo(todo.uuid);
   };
 
@@ -36,6 +42,9 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
   const handleEcsPress = (e) => {
     if (e.keyCode === 27) handlerBlur();
   };
+
+  const [isSmallThan850] = useMediaQuery("(max-width: 850px)");
+  const [isSmallThan550] = useMediaQuery("(max-width: 550px)");
 
   return (
     <Box>
@@ -62,6 +71,7 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
           fontSize="20px"
           alignItems="center"
           mb="10px"
+          w={isSmallThan850 ? "400px" : "700px"}
           wordBreak="break-all"
           className="todo__list"
         >
@@ -88,8 +98,8 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
 
           <IconButton
             bg="none"
-            ml="auto"
             color="#EA5959"
+            ml="auto"
             fontSize="25px"
             disabled={isLoader}
             onClick={onClickHandler}

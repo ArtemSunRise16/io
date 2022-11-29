@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import { AiOutlineArrowUp } from "react-icons/ai";
-import { Box, Button, Flex, VStack } from "@chakra-ui/react";
+import { Box, Button, Stack, useMediaQuery } from "@chakra-ui/react";
 
 function NavigatorItem({ filterState, sortByDate, isSorted, filter }) {
   function onClickHandlerDone() {
@@ -21,44 +21,48 @@ function NavigatorItem({ filterState, sortByDate, isSorted, filter }) {
     isSorted === "asc" ? sortByDate("desc") : sortByDate("asc");
   }
 
+  const [isSmallThan850] = useMediaQuery("(max-width: 850px)");
+
   return (
-    <VStack spacing={10} direction={["row", "column"]} justifyContent="center">
+    <Stack
+      spacing={isSmallThan850 ? 0 : 10}
+      flexDirection={isSmallThan850 ? "row" : "column"}
+      justifyContent={isSmallThan850 ? "end" : "center"}
+      alignItems={isSmallThan850 ? "center" : "center"}
+    >
       <Button
-        bg="none"
         fontSize="20px"
-        color={filter === "" ? "#EA5959" : undefined}
+        color={filter === "" ? "#EA5959" : null}
         onClick={onClickHandlerAll}
       >
         All
       </Button>
       <Button
         fontSize="20px"
-        bg="none"
-        color={filter === "done" ? "#EA5959" : undefined}
+        color={filter === "done" ? "#EA5959" : null}
         onClick={onClickHandlerDone}
       >
         Done
       </Button>
       <Button
         fontSize="20px"
-        bg="none"
-        color={filter === "undone" ? "#EA5959" : undefined}
+        color={filter === "undone" ? "#EA5959" : null}
         onClick={onClickHandlerUnDone}
       >
         Undone
       </Button>
       <Box>
-        <Button fontSize="20px" bg="none" onClick={OnClickHandlerDate}>
+        <Button fontSize="20px" onClick={OnClickHandlerDate}>
           Sort
         </Button>
-        <Button bg="none" color={isSorted === "asc" ? "#EA5959" : undefined}>
+        <Button color={isSorted === "asc" ? "#EA5959" : null}>
           <AiOutlineArrowDown></AiOutlineArrowDown>
         </Button>
-        <Button bg="none" color={isSorted === "desc" ? "#EA5959" : undefined}>
+        <Button color={isSorted === "desc" ? "#EA5959" : null}>
           <AiOutlineArrowUp></AiOutlineArrowUp>
         </Button>
       </Box>
-    </VStack>
+    </Stack>
   );
 }
 

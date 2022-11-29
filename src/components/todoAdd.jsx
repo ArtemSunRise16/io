@@ -1,4 +1,11 @@
-import { Button, Input, Box } from "@chakra-ui/react";
+import {
+  Button,
+  Input,
+  Box,
+  FormControl,
+  FormHelperText,
+  FormErrorMessage,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 
 function TodoAdd({ createTodo }) {
@@ -9,6 +16,8 @@ function TodoAdd({ createTodo }) {
   const onChangeHandler = (event) => {
     setName(event.target.value);
   };
+
+  const isError = name === "";
 
   function addNewTodo() {
     if (name.trim() === "") return null;
@@ -30,24 +39,25 @@ function TodoAdd({ createTodo }) {
   }
 
   return (
-    <Box
-      display="flex"
-      mb="16px"
-      alignItems="center"
-      className="todo__new"
-      onSubmit={submitHandler}
-    >
-      <Input
-        fontSize="16px"
-        mr="16px"
-        p="8px 10px"
-        type="text"
-        borderRadius="5px"
-        placeholder="Add a new tasks"
-        value={name}
-        onChange={onChangeHandler}
-      ></Input>
+    <Box display="flex" mb="16px" alignItems="start " className="todo__new">
+      <FormControl isInvalid={isError}>
+        <Input
+          onKeyUp={(e) => e.code === "Enter" && addNewTodo()}
+          fontSize="16px"
+          p="8px 10px"
+          type="text"
+          placeholder="Add a new tasks"
+          value={name}
+          onChange={onChangeHandler}
+        />
+        {!isError ? (
+          <FormHelperText>Enter to create task</FormHelperText>
+        ) : (
+          <FormErrorMessage>Task name is required.</FormErrorMessage>
+        )}
+      </FormControl>
       <Button
+        bg="none"
         fontSize="30px"
         textAlign="center"
         maxH="50px"
@@ -62,3 +72,15 @@ function TodoAdd({ createTodo }) {
 }
 
 export default TodoAdd;
+
+// {/* <Input */}
+// fontSize="16px"
+// mr="16px"
+// p="8px 10px"
+// type="text"
+// borderRadius="5px"
+// placeholder="Add a new tasks"
+// // value={name}
+// onKeyUp={(e) => e.code === "Enter" && addNewTodo()}
+// onChange={onChangeHandler}
+// {/* />; */}

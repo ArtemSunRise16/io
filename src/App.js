@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Context } from './components/context.js'
 import { getTasks, postCreateTodo, deletTask, patchCompleteTask, patchSaveTask } from './services/api';
 import Modal from './components/popup';
-import { ChakraProvider, Box } from '@chakra-ui/react';
+import { ChakraProvider, Box, useMediaQuery, Alert, AlertIcon, AlertTitle } from '@chakra-ui/react';
 import { Theme } from './style/Theme'
 
 function App() {
@@ -113,11 +113,18 @@ function App() {
   }
 
 
+  const [isSmallThan850] = useMediaQuery("(max-width: 850px)");
 
   return (
     <ChakraProvider theme={Theme}>
       <Context.Provider value={{ nextPage, pastPage, currentPage, loading, setLoading }}>
-        <Box display='flex' p='32px' bg='#fff' flexGrow='1' maxW='1000px' h='80vh' borderRadius='10px' className="app">
+      {error === error && error != null ? 
+        <Alert borderRadius='10px' position='fixed' w='400px' top='1%' status='error'>
+        <AlertIcon />
+        <AlertTitle>{error}!</AlertTitle>
+      </Alert>
+        : null}
+        <Box display='flex' p='32px' bg='#fff' flexGrow='1' maxW='1000px' h='80vh' borderRadius='10px' flexDirection= {isSmallThan850 ? "column" : "row"} className="app">
           <TodoNavigator
             filterState={filterState}
             filter={filter}
@@ -137,7 +144,7 @@ function App() {
             totalTodo={totalTodos}
             todoPagination={todoPagination} />
         </Box>
-        {error === error && error != null ? <Modal error={error} setError={setError}/> : null}
+        
       </Context.Provider>
     </ChakraProvider>
   );
