@@ -51,7 +51,7 @@ function NavigatorItem({ filterState, sortByDate, isSorted, filter }) {
       >
         Undone
       </Button>
-      <Box>
+      <Box display={isSmallThan850 ? "flex" : "inline"}>
         <Button fontSize="20px" onClick={OnClickHandlerDate}>
           Sort
         </Button>

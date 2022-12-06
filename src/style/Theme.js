@@ -20,7 +20,6 @@ export const Theme = extendTheme({
         height: "100vh",
         width: "100%",
         lineHeight: "1",
-        fontSize: "20px",
         fontFamily: "Nunito",
         bg: "#EA5959",
         display: "flex",
@@ -33,7 +32,3 @@ export const Theme = extendTheme({
     },
   },
 });
-
-// _hover: {
-// color: '#EA5959'
-// },

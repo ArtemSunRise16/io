@@ -5,12 +5,11 @@ import {
   FormControl,
   FormHelperText,
   FormErrorMessage,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 function TodoAdd({ createTodo }) {
-  // const { loading } = useContext(Context);
-
   const [name, setName] = useState("");
 
   const onChangeHandler = (event) => {
@@ -33,15 +32,13 @@ function TodoAdd({ createTodo }) {
     createTodo(newTodo);
     setName("");
   }
-
-  function submitHandler(event) {
-    event.preventDefault();
-  }
+  const [isSmallThan850] = useMediaQuery("(max-width: 850px)");
 
   return (
-    <Box display="flex" mb="16px" alignItems="start " className="todo__new">
-      <FormControl isInvalid={isError}>
+    <Box display="flex" mb="16px" alignItems="start">
+      <FormControl flexDirection="column" display="flex" isInvalid={isError}>
         <Input
+          display="flex"
           onKeyUp={(e) => e.code === "Enter" && addNewTodo()}
           fontSize="16px"
           p="8px 10px"

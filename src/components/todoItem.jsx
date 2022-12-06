@@ -1,11 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  IconButton,
-  Input,
-  Text,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, Checkbox, IconButton, Input, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 
@@ -43,19 +36,15 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
     if (e.keyCode === 27) handlerBlur();
   };
 
-  const [isSmallThan850] = useMediaQuery("(max-width: 850px)");
-  const [isSmallThan550] = useMediaQuery("(max-width: 550px)");
-
   return (
     <Box>
       {edit ? (
-        <form onSubmit={saveHandler} className="todo__list__edit">
+        <form onSubmit={saveHandler}>
           <Checkbox
             checked={todo.done ? true : false}
             onChange={() => completeTask(todo.uuid)}
           ></Checkbox>
           <Input
-            className="edit__todo"
             autoFocus
             onBlur={handlerBlur}
             value={value}
@@ -71,28 +60,21 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
           fontSize="20px"
           alignItems="center"
           mb="10px"
-          w={isSmallThan850 ? "400px" : "700px"}
           wordBreak="break-all"
-          className="todo__list"
         >
           <Checkbox
             size="lg"
             colorScheme="red"
             borderRadius="100px"
             defaultChecked={todo.done ? true : false}
-            className="todo__task__checkbox"
             onChange={() => completeTask(todo)}
           />
 
-          <Text
-            ml="10px"
-            onClick={() => editTodo(todo.uuid, todo.name)}
-            className="todo__task__text"
-          >
+          <Text ml="10px" onClick={() => editTodo(todo.uuid, todo.name)}>
             {todo.name}
           </Text>
 
-          <Box ml="20px" fontSize="5px" className="todo__task__date">
+          <Box ml="20px" fontSize="5px">
             {todo.createdAt}
           </Box>
 

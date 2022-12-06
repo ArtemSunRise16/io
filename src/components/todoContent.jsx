@@ -1,4 +1,4 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, useMediaQuery } from "@chakra-ui/react";
 import { Pagination } from "./pagination";
 import TodoAdd from "./todoAdd";
 import TodoList from "./todoList";
@@ -14,7 +14,7 @@ function TodoContent({
   createTodo,
 }) {
   return (
-    <Box m="20px" className="todo__content">
+    <Box flexGrow="1" m="20px">
       <Heading mb="16px">Заметки — и точка</Heading>
       <TodoAdd todos={todos} createTodo={createTodo} />
       {todos.length ? (
