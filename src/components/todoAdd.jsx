@@ -5,7 +5,6 @@ import {
   FormControl,
   FormHelperText,
   FormErrorMessage,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 
@@ -32,7 +31,6 @@ function TodoAdd({ createTodo }) {
     createTodo(newTodo);
     setName("");
   }
-  const [isSmallThan850] = useMediaQuery("(max-width: 850px)");
 
   return (
     <Box display="flex" mb="16px" alignItems="start">
@@ -69,15 +67,3 @@ function TodoAdd({ createTodo }) {
 }
 
 export default TodoAdd;
-
-// {/* <Input */}
-// fontSize="16px"
-// mr="16px"
-// p="8px 10px"
-// type="text"
-// borderRadius="5px"
-// placeholder="Add a new tasks"
-// // value={name}
-// onKeyUp={(e) => e.code === "Enter" && addNewTodo()}
-// onChange={onChangeHandler}
-// {/* />; */}

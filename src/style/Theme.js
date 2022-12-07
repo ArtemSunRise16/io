@@ -28,6 +28,7 @@ export const Theme = extendTheme({
       button: {
         color: "black",
         bg: "none",
+        _hover: { bg: "none" },
       },
     },
   },

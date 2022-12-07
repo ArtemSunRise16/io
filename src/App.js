@@ -1,4 +1,5 @@
 import TodoContent from "./components/todoContent";
+import { constants } from "./constants/constants";
 import TodoNavigator from "./components/todoNavigator";
 import React, { useEffect, useState } from "react";
 import { Context } from "./components/context.js";
@@ -22,7 +23,7 @@ import { Theme } from "./style/Theme";
 function App() {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("");
-  const [sort, setSort] = useState("asc");
+  const [sort, setSort] = useState(constants.asc);
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalTodos, setTotalTodos] = useState(0);
@@ -37,9 +38,10 @@ function App() {
       } = await getTasks({ filter, sort, todosPrePage, currentPage });
       setTotalTodos(count);
       setTodos(rows);
-      setLoading(false);
     } catch (e) {
       setError(e.response.data?.message);
+    } finally {
+      setTimeout(() => setLoading(false), 200);
     }
   };
 
@@ -53,7 +55,6 @@ function App() {
   }
 
   function sortByDate(value) {
-    console.log(value);
     setSort(value);
     setCurrentPage(1);
   }
@@ -65,7 +66,6 @@ function App() {
       getTodo();
       setLoading(false);
     } catch (e) {
-      console.log(e);
       setError(e.response.data.message);
       setLoading(false);
     }
@@ -73,6 +73,7 @@ function App() {
 
   async function removeTodo(id) {
     try {
+      setLoading(true);
       await deletTask(id);
       getTodo();
     } catch (e) {
@@ -124,13 +125,11 @@ function App() {
     setCurrentPage((prev) => prev - 1);
   }
 
-  const [isSmallThan850] = useMediaQuery("(max-width: 850px)");
+  const [isSmallThan850] = useMediaQuery("(max-width: 930px)");
 
   return (
     <ChakraProvider theme={Theme}>
-      <Context.Provider
-        value={{ nextPage, pastPage, currentPage, loading, setLoading }}
-      >
+      <Context.Provider value={{ nextPage, pastPage, currentPage, setLoading }}>
         {error === error && error != null ? (
           <Alert
             borderRadius="10px"
@@ -161,6 +160,7 @@ function App() {
             isSorted={sort}
           />
           <TodoContent
+            loading={loading}
             error={error}
             setError={setError}
             setTodos={setTodos}

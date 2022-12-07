@@ -1,4 +1,4 @@
-import { Box, Heading, useMediaQuery } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { Pagination } from "./pagination";
 import TodoAdd from "./todoAdd";
 import TodoList from "./todoList";
@@ -12,6 +12,7 @@ function TodoContent({
   removeTodo,
   todos,
   createTodo,
+  loading,
 }) {
   return (
     <Box flexGrow="1" m="20px">
@@ -19,6 +20,7 @@ function TodoContent({
       <TodoAdd todos={todos} createTodo={createTodo} />
       {todos.length ? (
         <TodoList
+          loading={loading}
           saveTodo={saveTodo}
           completeTask={completeTask}
           removeTodo={removeTodo}
@@ -35,5 +37,4 @@ function TodoContent({
     </Box>
   );
 }
-
 export default TodoContent;

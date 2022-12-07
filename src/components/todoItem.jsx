@@ -1,4 +1,11 @@
-import { Box, Checkbox, IconButton, Input, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Checkbox,
+  IconButton,
+  Input,
+  Text,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 
@@ -36,6 +43,8 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
     if (e.keyCode === 27) handlerBlur();
   };
 
+  const [isSmallThan850] = useMediaQuery("(max-width: 930px)");
+
   return (
     <Box>
       {edit ? (
@@ -57,7 +66,7 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
       ) : (
         <Box
           display="flex"
-          fontSize="20px"
+          fontSize={isSmallThan850 ? "14px" : "20px"}
           alignItems="center"
           mb="10px"
           wordBreak="break-all"
@@ -74,9 +83,11 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
             {todo.name}
           </Text>
 
-          <Box ml="20px" fontSize="5px">
-            {todo.createdAt}
-          </Box>
+          {isSmallThan850 ? null : (
+            <Box ml="20px" fontSize="5px">
+              {todo.createdAt}
+            </Box>
+          )}
 
           <IconButton
             bg="none"
