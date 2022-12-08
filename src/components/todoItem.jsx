@@ -89,8 +89,10 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
             </Text>
 
             {isSmallThan850 ? null : (
-              <Box ml="20px" fontSize="5px">
-                {`${data.getDate()}/${data.getMonth()}/${data.getFullYear()}`}
+              <Box ml="20px" fontSize="15px">
+                {`${data.getDate()}/${
+                  data.getMonth() + 1
+                }/${data.getFullYear()}`}
               </Box>
             )}
           </Box>
