@@ -15,10 +15,12 @@ function TodoAdd({ createTodo }) {
     setName(event.target.value);
   };
 
-  const isError = name === "";
+  const [isError, setIsError] = useState(false);
 
   function addNewTodo() {
-    if (name.trim() === "") return null;
+    if (name.trim() === "") {
+      setIsError(true);
+    }
 
     const d = new Date();
 
@@ -32,10 +34,15 @@ function TodoAdd({ createTodo }) {
     setName("");
   }
 
+  function onHandlerBlur() {
+    setIsError(false);
+  }
+
   return (
     <Box display="flex" mb="16px" alignItems="start">
       <FormControl flexDirection="column" display="flex" isInvalid={isError}>
         <Input
+          onBlur={onHandlerBlur}
           display="flex"
           onKeyUp={(e) => e.code === "Enter" && addNewTodo()}
           fontSize="16px"

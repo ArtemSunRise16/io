@@ -5,11 +5,14 @@ import {
   Input,
   Text,
   useMediaQuery,
+  FormControl,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 
 function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
+  const data = new Date(todo.createdAt);
+
   const [isLoader, setIsLoader] = useState(false);
 
   const [value, setValue] = useState("");
@@ -48,13 +51,10 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
   return (
     <Box>
       {edit ? (
-        <form onSubmit={saveHandler}>
-          <Checkbox
-            checked={todo.done ? true : false}
-            onChange={() => completeTask(todo.uuid)}
-          ></Checkbox>
+        <FormControl>
           <Input
             autoFocus
+            onKeyUp={(e) => e.code === "Enter" && saveHandler(e)}
             onBlur={handlerBlur}
             value={value}
             onChange={(e) => {
@@ -62,7 +62,7 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
             }}
             onKeyDown={handleEcsPress}
           />
-        </form>
+        </FormControl>
       ) : (
         <Box
           display="flex"
@@ -78,16 +78,22 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
             defaultChecked={todo.done ? true : false}
             onChange={() => completeTask(todo)}
           />
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            w="85%"
+            alignItems="center"
+          >
+            <Text ml="10px" onClick={() => editTodo(todo.uuid, todo.name)}>
+              {todo.name}
+            </Text>
 
-          <Text ml="10px" onClick={() => editTodo(todo.uuid, todo.name)}>
-            {todo.name}
-          </Text>
-
-          {isSmallThan850 ? null : (
-            <Box ml="20px" fontSize="5px">
-              {todo.createdAt}
-            </Box>
-          )}
+            {isSmallThan850 ? null : (
+              <Box ml="20px" fontSize="5px">
+                {`${data.getDate()}/${data.getMonth()}/${data.getFullYear()}`}
+              </Box>
+            )}
+          </Box>
 
           <IconButton
             bg="none"

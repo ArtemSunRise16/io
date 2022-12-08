@@ -14,12 +14,24 @@ export const Pagination = ({ todosPrePage, totalTodo, todoPagination }) => {
   return (
     <Box display="flex" justifyContent="center">
       {currentPage >= 2 && (
-        <Button color="#EA5959" fontSize="20px" onClick={pastPage}>
+        <Button
+          bg="none"
+          _hover={{ bg: "none" }}
+          color="#EA5959"
+          fontSize="20px"
+          onClick={pastPage}
+        >
           {"<<"}
         </Button>
       )}
       {currentPage >= 3 && (
-        <Button color="#EA5959" fontSize="20px" onClick={pastPage}>
+        <Button
+          color="#EA5959"
+          fontSize="20px"
+          bg="none"
+          _hover={{ bg: "none" }}
+          onClick={pastPage}
+        >
           {"..."}
         </Button>
       )}
@@ -45,12 +57,24 @@ export const Pagination = ({ todosPrePage, totalTodo, todoPagination }) => {
           }
         })}
       {currentPage < Math.ceil(totalTodo / todosPrePage) - 1 && (
-        <Button fontSize="20px" color="#EA5959" onClick={nextPage}>
+        <Button
+          bg="none"
+          _hover={{ bg: "none" }}
+          fontSize="20px"
+          color="#EA5959"
+          onClick={nextPage}
+        >
           {"..."}
         </Button>
       )}
       {currentPage < pageNumber.length && (
-        <Button fontSize="20px" color="#EA5959" onClick={nextPage}>
+        <Button
+          bg="none"
+          _hover={{ bg: "none" }}
+          fontSize="20px"
+          color="#EA5959"
+          onClick={nextPage}
+        >
           {">>"}
         </Button>
       )}
