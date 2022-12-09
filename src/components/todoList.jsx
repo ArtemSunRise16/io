@@ -9,7 +9,7 @@ function TodoList({ completeTask, removeTodo, todos, saveTodo, loading }) {
     <>
       {loading && (
         <Spinner
-          position="fixed"
+          position="absolute"
           top="25%"
           left={isSmallThan850 ? "36%" : "53%"}
           w="100px"

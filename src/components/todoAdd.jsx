@@ -6,7 +6,8 @@ import {
   FormHelperText,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useEffect } from "react";
 
 function TodoAdd({ createTodo }) {
   const [name, setName] = useState("");
@@ -16,6 +17,12 @@ function TodoAdd({ createTodo }) {
   };
 
   const [isError, setIsError] = useState(false);
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [name]);
 
   function addNewTodo() {
     if (name.trim() === "") {
@@ -42,6 +49,7 @@ function TodoAdd({ createTodo }) {
     <Box display="flex" mb="16px" alignItems="start">
       <FormControl flexDirection="column" display="flex" isInvalid={isError}>
         <Input
+          ref={inputRef}
           onBlur={onHandlerBlur}
           display="flex"
           onKeyUp={(e) => e.code === "Enter" && addNewTodo()}
