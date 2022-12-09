@@ -52,7 +52,7 @@ function TodoAdd({ createTodo }) {
           ref={inputRef}
           onBlur={onHandlerBlur}
           display="flex"
-          onKeyUp={(e) => e.code === "Enter" && addNewTodo()}
+          onKeyDown={(e) => e.code === "Enter" && addNewTodo()}
           fontSize="16px"
           p="8px 10px"
           type="text"

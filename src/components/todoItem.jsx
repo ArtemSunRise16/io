@@ -54,13 +54,13 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
         <FormControl>
           <Input
             autoFocus
-            onKeyUp={(e) => e.code === "Enter" && saveHandler(e)}
+            onKeyDown={(e) => e.code === "Enter" && saveHandler(e)}
             onBlur={handlerBlur}
             value={value}
             onChange={(e) => {
               onChangeHandler(e);
             }}
-            onKeyDown={handleEcsPress}
+            onKeyUp={handleEcsPress}
           />
         </FormControl>
       ) : (
