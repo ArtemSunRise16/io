@@ -4,28 +4,28 @@ const instance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-instance.interceptors.request.use((config) => {
-  config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
-  return config;
-});
+// instance.interceptors.request.use((config) => {
+//   config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+//   return config;
+// });
 
-const loginUser = async () => {
+export const loginUser = async (username, password) => {
   return instance.post("/user/login", {
     username,
     password,
   });
 };
 
-const registerUser = async () => {
+export const registerUser = async (username, password) => {
   return instance.post("/user/register", {
     username,
     password,
   });
 };
 
-const logout = async (id) => {
-  return instance.post(`/user/delete/${id}`, {
-    username,
-    password,
-  });
-};
+// export const logout = async (id) => {
+//   return instance.post(`/user/delete/${id}`, {
+//     username,
+//     password,
+//   });
+// };

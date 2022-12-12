@@ -4,6 +4,11 @@ const instance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
+instance.interceptors.request.use((config) => {
+  config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+  return config;
+});
+
 export const getTasks = (response) =>
   instance.get(`/api/tasks`, {
     params: {

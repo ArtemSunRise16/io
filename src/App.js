@@ -19,6 +19,8 @@ import {
   AlertTitle,
 } from "@chakra-ui/react";
 import { Theme } from "./style/Theme";
+import InitialFocus from "./components/modal";
+import { loginUser, registerUser } from "./services/user";
 
 function App() {
   const [error, setError] = useState(null);
@@ -29,6 +31,24 @@ function App() {
   const [totalTodos, setTotalTodos] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const todosPrePage = 7;
+
+  const login = async (username, password) => {
+    try {
+      const response = await loginUser(username, password);
+      localStorage.setItem("token", response.data.accessToken);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const register = async (username, password) => {
+    try {
+      const response = await registerUser(username, password);
+      localStorage.setItem("token", response.data.accessToken);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getTodo = async () => {
     try {
@@ -142,6 +162,7 @@ function App() {
             <AlertTitle>{error}!</AlertTitle>
           </Alert>
         ) : null}
+
         <Box
           w={isSmallThan850 ? "400px" : "900px"}
           display="flex"
@@ -172,6 +193,16 @@ function App() {
             todosPrePage={todosPrePage}
             totalTodo={totalTodos}
             todoPagination={todoPagination}
+          />
+          <InitialFocus
+            buttonText={"Register"}
+            formText={"Create your account"}
+            formFunc={register}
+          />
+          <InitialFocus
+            buttonText={"Sig in"}
+            formText={"Your account"}
+            formFunc={login}
           />
         </Box>
       </Context.Provider>
