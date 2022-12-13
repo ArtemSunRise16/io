@@ -12,11 +12,11 @@ export const Theme = extendTheme({
         fontFamily: "Nunito, Tahoma, Geneva, Verdana, sans-serif",
         backgroundColor: "#EA5959",
         display: "flex",
-        justifyContent: "center",
-        padding: "32px",
+        display: "flex",
       },
       // styles for the `body`
       body: {
+        display: "flex",
         height: "100vh",
         width: "100%",
         lineHeight: "1",
@@ -24,6 +24,7 @@ export const Theme = extendTheme({
         bg: "#EA5959",
         display: "flex",
         justifyContent: "center",
+        alignItems: "center",
       },
       button: {
         color: "black",

@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 
-function InitialFocus({ formText, formFunc, buttonText }) {
+function InitialFocus({ formText, formFunc, buttonText, text }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
@@ -32,7 +32,9 @@ function InitialFocus({ formText, formFunc, buttonText }) {
 
   return (
     <Box>
-      <Button onClick={onOpen}>{buttonText}</Button>
+      <Button bg="none" fontSize="15px" onClick={onOpen}>
+        {buttonText}
+      </Button>
 
       <Modal
         initialFocusRef={initialRef}
@@ -58,6 +60,12 @@ function InitialFocus({ formText, formFunc, buttonText }) {
             <FormControl mt={4}>
               <FormLabel>Password</FormLabel>
               <Input
+                type="password"
+                onKeyUp={(e) =>
+                  e.code === "Enter" &&
+                  formFunc(username, password) &&
+                  onClose()
+                }
                 value={password}
                 onChange={onChangePasswordHandler}
                 placeholder="Password"
@@ -74,7 +82,7 @@ function InitialFocus({ formText, formFunc, buttonText }) {
               colorScheme="blue"
               mr={3}
             >
-              Create
+              {text}
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>

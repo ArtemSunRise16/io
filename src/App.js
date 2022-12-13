@@ -17,6 +17,7 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
+  Button,
 } from "@chakra-ui/react";
 import { Theme } from "./style/Theme";
 import InitialFocus from "./components/modal";
@@ -30,14 +31,19 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [totalTodos, setTotalTodos] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [users, setUsers] = useState();
   const todosPrePage = 7;
 
   const login = async (username, password) => {
     try {
       const response = await loginUser(username, password);
       localStorage.setItem("token", response.data.accessToken);
-    } catch (error) {
-      console.log(error);
+      localStorage.setItem("username", response.data.username);
+    } catch (e) {
+      const validError = e.response.data["0"].msg; // ругается!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      console.log(e.response);
+
+      setError(validError || e.response.data.message);
     }
   };
 
@@ -45,8 +51,20 @@ function App() {
     try {
       const response = await registerUser(username, password);
       localStorage.setItem("token", response.data.accessToken);
-    } catch (error) {
-      console.log(error);
+      localStorage.setItem("username", response.data.username);
+    } catch (e) {
+      const validError = e.response.data["0"].msg;
+      setError(validError && e.response.data.message);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      setUsers("");
+    } catch (e) {
+      setError(e.response.data?.message);
     }
   };
 
@@ -58,6 +76,7 @@ function App() {
       } = await getTasks({ filter, sort, todosPrePage, currentPage });
       setTotalTodos(count);
       setTodos(rows);
+      setUsers(localStorage.getItem("username"));
     } catch (e) {
       setError(e.response.data?.message);
     } finally {
@@ -67,7 +86,7 @@ function App() {
 
   useEffect(() => {
     getTodo();
-  }, [filter, sort, currentPage]);
+  }, [filter, sort, currentPage, users]);
 
   function filterState(state) {
     setCurrentPage(1);
@@ -162,24 +181,67 @@ function App() {
             <AlertTitle>{error}!</AlertTitle>
           </Alert>
         ) : null}
-
         <Box
           w={isSmallThan850 ? "400px" : "900px"}
           display="flex"
-          p="32px"
+          p={isSmallThan850 ? "10px" : "32px"}
           bg="#fff"
           flexGrow="1"
           h="80vh"
           borderRadius="10px"
           flexDirection={isSmallThan850 ? "column" : "row"}
-          className="app"
         >
+          {users ? (
+            <Box display="flex" mb="10px" justifyContent="space-between">
+              <Box
+                top={isSmallThan850 ? "0" : "160"}
+                maxW="190px"
+                m="10px"
+                fontWeight="900"
+                fontSize="15px"
+                position={isSmallThan850 ? "relative" : "absolute"}
+              >
+                {`Login: ${users}`}
+              </Box>
+
+              <Button
+                color="#EA5959"
+                onClick={() => logout()}
+                fontSize="15px"
+                bg="none"
+                position={isSmallThan850 ? "relative" : "absolute"}
+              >
+                logout
+              </Button>
+            </Box>
+          ) : (
+            <Box
+              position={isSmallThan850 ? "relative" : "absolute"}
+              m={isSmallThan850 ? "15px" : "0px"}
+              display="flex"
+            >
+              <InitialFocus
+                buttonText={"Register"}
+                formText={"Create your account"}
+                formFunc={register}
+                text={"Create"}
+              />
+              <InitialFocus
+                buttonText={"Sig in"}
+                formText={"Your account"}
+                formFunc={login}
+                text={"Sig in"}
+              />
+            </Box>
+          )}
+
           <TodoNavigator
             filterState={filterState}
             filter={filter}
             sortByDate={sortByDate}
             isSorted={sort}
           />
+
           <TodoContent
             loading={loading}
             error={error}
@@ -193,16 +255,6 @@ function App() {
             todosPrePage={todosPrePage}
             totalTodo={totalTodos}
             todoPagination={todoPagination}
-          />
-          <InitialFocus
-            buttonText={"Register"}
-            formText={"Create your account"}
-            formFunc={register}
-          />
-          <InitialFocus
-            buttonText={"Sig in"}
-            formText={"Your account"}
-            formFunc={login}
           />
         </Box>
       </Context.Provider>

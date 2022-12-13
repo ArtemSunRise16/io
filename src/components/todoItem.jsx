@@ -1,14 +1,15 @@
 import {
   Box,
   Checkbox,
+  FormControl,
   IconButton,
   Input,
   Text,
   useMediaQuery,
-  FormControl,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
+import { FiCheck } from "react-icons/fi";
 
 function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
   const data = new Date(todo.createdAt);
@@ -51,17 +52,26 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
   return (
     <Box>
       {edit ? (
-        <FormControl>
+        <FormControl onClick={(e) => e.stopPropagation()} display="flex">
           <Input
+            onBlur={handlerBlur}
             autoFocus
             onKeyDown={(e) => e.code === "Enter" && saveHandler(e)}
-            onBlur={handlerBlur}
             value={value}
             onChange={(e) => {
               onChangeHandler(e);
             }}
             onKeyUp={handleEcsPress}
-          />
+          ></Input>
+          {/* <IconButton
+            bg="none"
+            color="green"
+            ml="auto"
+            fontSize="25px"
+            disabled={isLoader}
+            onClick={saveHandler}
+            icon={<FiCheck />}
+          ></IconButton> */}
         </FormControl>
       ) : (
         <Box
