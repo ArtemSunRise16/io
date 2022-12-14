@@ -48,7 +48,7 @@ function InitialFocus({ formText, formFunc, buttonText, text }) {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Email/Username</FormLabel>
               <Input
                 value={username}
                 onChange={onChangeUsernameHandler}

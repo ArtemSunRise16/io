@@ -18,9 +18,6 @@ export const registerUser = async (username, password) => {
   });
 };
 
-// export const logout = async (id) => {
-//   return instance.post(`/user/delete/${id}`, {
-//     username,
-//     password,
-//   });
-// };
+export const deletAccauntUser = async (id) => {
+  return instance.delete(`/user/delete/${id}`);
+};

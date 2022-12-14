@@ -13,12 +13,13 @@ function TodoContent({
   todos,
   createTodo,
   loading,
+  users,
 }) {
   return (
     <Box flexGrow="1" m="20px">
       <Heading mb="16px">Заметки — и точка</Heading>
       <TodoAdd todos={todos} createTodo={createTodo} />
-      {todos.length ? (
+      {users && todos.length ? (
         <TodoList
           loading={loading}
           saveTodo={saveTodo}

@@ -63,7 +63,7 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
             }}
             onKeyUp={handleEcsPress}
           ></Input>
-          {/* <IconButton
+          <IconButton
             bg="none"
             color="green"
             ml="auto"
@@ -71,7 +71,7 @@ function TodoItem({ saveTodo, todo, completeTask, removeTodo }) {
             disabled={isLoader}
             onClick={saveHandler}
             icon={<FiCheck />}
-          ></IconButton> */}
+          ></IconButton>
         </FormControl>
       ) : (
         <Box

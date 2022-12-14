@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { Theme } from "./style/Theme";
 import InitialFocus from "./components/modal";
-import { loginUser, registerUser } from "./services/user";
+import { loginUser, registerUser, deletAccauntUser } from "./services/user";
 
 function App() {
   const [error, setError] = useState(null);
@@ -34,27 +34,32 @@ function App() {
   const [users, setUsers] = useState();
   const todosPrePage = 7;
 
+  const saveLocalStorage = (token, username, userId) => {
+    localStorage.setItem("token", token);
+    localStorage.setItem("username", username);
+    localStorage.setItem("userId", userId);
+    setUsers(localStorage.getItem("username"));
+  };
+
   const login = async (username, password) => {
     try {
       const response = await loginUser(username, password);
-      localStorage.setItem("token", response.data.accessToken);
-      localStorage.setItem("username", response.data.username);
+      const { data } = response;
+      saveLocalStorage(data.accessToken, data.username, data.userId);
     } catch (e) {
-      const validError = e.response.data["0"].msg; // ругается!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       console.log(e.response);
 
-      setError(validError || e.response.data.message);
+      setError(e.response.data.message);
     }
   };
 
   const register = async (username, password) => {
     try {
       const response = await registerUser(username, password);
-      localStorage.setItem("token", response.data.accessToken);
-      localStorage.setItem("username", response.data.username);
+      const { data } = response;
+      saveLocalStorage(data.accessToken, data.username, data.userId);
     } catch (e) {
-      const validError = e.response.data["0"].msg;
-      setError(validError && e.response.data.message);
+      setError(e.response.data.message);
     }
   };
 
@@ -62,9 +67,22 @@ function App() {
     try {
       localStorage.removeItem("token");
       localStorage.removeItem("username");
+      localStorage.removeItem("userId");
       setUsers("");
     } catch (e) {
       setError(e.response.data?.message);
+    }
+  };
+
+  const deletAccount = async () => {
+    try {
+      await deletAccauntUser(localStorage.getItem("userId"));
+      localStorage.removeItem("username");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("token");
+      setUsers("");
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -174,7 +192,7 @@ function App() {
             borderRadius="10px"
             position="fixed"
             w="400px"
-            top="1%"
+            top="5%"
             status="error"
           >
             <AlertIcon />
@@ -211,7 +229,18 @@ function App() {
                 bg="none"
                 position={isSmallThan850 ? "relative" : "absolute"}
               >
-                logout
+                Logout
+              </Button>
+
+              <Button
+                onClick={() => deletAccount()}
+                top={isSmallThan850 ? "0" : "100"}
+                color="#EA5959"
+                fontSize="15px"
+                bg="none"
+                position={isSmallThan850 ? "relative" : "absolute"}
+              >
+                Delet account
               </Button>
             </Box>
           ) : (
@@ -243,6 +272,7 @@ function App() {
           />
 
           <TodoContent
+            users={users}
             loading={loading}
             error={error}
             setError={setError}

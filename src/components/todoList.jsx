@@ -4,7 +4,6 @@ import TodoItem from "./todoItem";
 
 function TodoList({ completeTask, removeTodo, todos, saveTodo, loading }) {
   const [isSmallThan850] = useMediaQuery("(max-width: 930px)");
-
   return (
     <>
       {loading && (
